@@ -87,7 +87,7 @@ const Layout = ({ lang, setLang }) => {
 
                 {/* Global Background */}
                 <div className="fixed inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden z-0">
-                    <img src="/image/background_logo.svg" alt="ROGUE VERGE Background" className="w-full h-full object-cover opacity-5 animate-pulse-slow" style={{ filter: 'grayscale(100%) brightness(30%)' }} />
+                    <img src="/image/background_logo.svg" alt="ROGUE VERGE Background" className="w-full h-full object-cover opacity-20 animate-pulse-slow" style={{ filter: 'grayscale(100%) brightness(30%)' }} />
                 </div>
                 <div className="fixed inset-0 pointer-events-none z-50 mix-blend-overlay opacity-10" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
                 <div className={`fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000 ease-in-out ${isAwakened ? 'opacity-30' : 'opacity-0'}`} style={{ backgroundImage: `linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)`, backgroundSize: '40px 40px', maskImage: 'radial-gradient(circle at center, black 40%, transparent 80%)', WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 80%)' }}></div>
