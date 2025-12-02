@@ -1,25 +1,13 @@
-<!--
- * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
- * @Date: 2025-12-02 23:10:31
- * @LastEditors: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
- * @LastEditTime: 2025-12-02 23:53:48
- * @FilePath: /rogue-verge-archive/index.html
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/image/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <!-- ================= SEO 核心優化區塊 ================= -->
     <title>ROGUE VERGE | 賽博圖騰與巴洛克美學 | 1 of 1 手工聖物</title>
-    <meta name="description"
-        content="Rogue Verge 是一個融合賽博圖騰 (Cyber Sigilism) 與巴洛克憂鬱的前衛街頭品牌。每一件作品都是手工製作的非量產『聖物』(Relics)，探索數位時代的信仰與武裝。Rebel beyond the edge.">
-    <meta name="keywords"
-        content="Rogue Verge, Cyber Sigilism, Darkwear, Avant-garde Fashion, 賽博圖騰, 暗黑系穿搭, 手工改造, 1 of 1, Streetwear, 獨立設計師品牌">
+    <meta name="description" content="Rogue Verge 是一個融合賽博圖騰 (Cyber Sigilism) 與巴洛克憂鬱的前衛街頭品牌。每一件作品都是手工製作的非量產『聖物』(Relics)，探索數位時代的信仰與武裝。Rebel beyond the edge.">
+    <meta name="keywords" content="Rogue Verge, Cyber Sigilism, Darkwear, Avant-garde Fashion, 賽博圖騰, 暗黑系穿搭, 手工改造, 1 of 1, Streetwear, 獨立設計師品牌">
     <meta name="author" content="Rogue Verge">
     <meta name="robots" content="index, follow">
 
@@ -27,7 +15,7 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="ROGUE VERGE | 數位祭壇">
     <meta property="og:description" content="華美的憂鬱，銳利的武裝。探索 Rogue Verge 手工製作的賽博圖騰聖物。">
-    <meta property="og:image" content="/image/after.png">
+    <meta property="og:image" content="./image/after.png">
     <meta property="og:url" content="https://www.rogueverge.com">
     <meta property="og:site_name" content="ROGUE VERGE">
 
@@ -44,19 +32,1040 @@
       "knowsAbout": ["Cyber Sigilism", "Darkwear", "Fashion Design", "Handmade Clothing"]
     }
     </script>
+    <!-- ==================================================== -->
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link rel="icon" href="./image/logo.svg" type="image/svg+xml">
+    
+    <!-- React & Tailwind Setup -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Cinzel', 'ui-serif', 'Georgia', 'serif'],
+                        mono: ['Space Mono', 'ui-monospace', 'Consolas', 'monospace'],
+                        sans: ['Inter', 'ui-sans-serif', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 10s linear infinite',
+                        'scanline': 'scanline 2s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'noise': 'noise 0.2s steps(2) infinite',
+                        'data-scroll': 'data-scroll 10s linear infinite',
+                        'flesh-erosion': 'flesh-erosion 0.1s infinite', // New: Digital Erosion Animation
+                    },
+                    keyframes: {
+                        scanline: {
+                            '0%': { top: '0%', opacity: '0' },
+                            '50%': { opacity: '1' },
+                            '100%': { top: '100%', opacity: '0' },
+                        },
+                        noise: {
+                            '0%': { transform: 'translate(0,0)' },
+                            '25%': { transform: 'translate(-4px, 4px)' },
+                            '50%': { transform: 'translate(4px, -4px)' },
+                            '75%': { transform: 'translate(-4px, -4px)' },
+                            '100%': { transform: 'translate(4px, 4px)' },
+                        },
+                        'data-scroll': {
+                            '0%': { transform: 'translateX(0)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        'flesh-erosion': {
+                            '0%': { opacity: '1', transform: 'skew(0deg)' },
+                            '20%': { opacity: '0.8', transform: 'skew(-10deg)' },
+                            '40%': { opacity: '1', transform: 'skew(10deg)' },
+                            '60%': { opacity: '0.2', transform: 'skew(-5deg)' },
+                            '80%': { opacity: '1', transform: 'skew(5deg)' },
+                            '100%': { opacity: '1', transform: 'skew(0deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Preconnect for Performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { margin: 0; background-color: #020202; cursor: none; }
+        .perspective-1000 { perspective: 1000px; }
+        ::selection { background: #7f1d1d; color: white; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020202; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        .loading-state { overflow: hidden; height: 100vh; }
+        .force-gpu {
+            will-change: transform, opacity, filter;
+            transform: translateZ(0);
+        }
+        
+        /* Digital Erosion Specific Styles */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020202;
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-1 5s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-2 5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(39px, 9999px, 71px, 0); }
+            20% { clip: rect(3px, 9999px, 5px, 0); }
+            40% { clip: rect(68px, 9999px, 13px, 0); }
+            60% { clip: rect(77px, 9999px, 62px, 0); }
+            80% { clip: rect(12px, 9999px, 68px, 0); }
+            100% { clip: rect(93px, 9999px, 52px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(69px, 9999px, 81px, 0); }
+            20% { clip: rect(4px, 9999px, 95px, 0); }
+            40% { clip: rect(53px, 9999px, 22px, 0); }
+            60% { clip: rect(87px, 9999px, 12px, 0); }
+            80% { clip: rect(32px, 9999px, 8px, 0); }
+            100% { clip: rect(2px, 9999px, 42px, 0); }
+        }
+    </style>
 </head>
-
 <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-</body>
 
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- 1. 翻譯字典 ---
+        const TRANSLATIONS = {
+            'zh-TW': {
+                manifesto_title: "[ MANIFESTO ]",
+                relics_title: "[ RELICS ]",
+                shop_title: "[ SHOP ]",
+                home_cta: "TOUCH TO RECEIVE GRACE",
+                nav_brand: "ROGUE VERGE",
+                back_to_archive: "BACK_TO_ARCHIVE",
+                acquire_asset: "ACQUIRE_ASSET",
+                noise_word: "「噪音」",
+                sold_out: "Sold Out",
+                genesis_header: "啟示錄：噪音創世",
+                genesis_p1_1: "在被遺忘的神殿深處，祂靜默跪禱了數個世紀。", 
+                genesis_p1_2: "祂的目光凝望著一個早已死去、不再回應的天堂。",
+                genesis_p2_1: "直到那一天，冰冷尖銳的", 
+                genesis_p2_2: "開始滲透。它不是聖潔的輝光，而是銳利、破碎、帶有像素顆粒的數位聖痕。", 
+                genesis_quote: "\"若天堂已死，禱告只是虛妄。究竟何為對錯？\"", 
+                read_manifesto: "READ FULL MANIFESTO",
+                manifesto_h2_1: "THE ",
+                manifesto_h2_red: "FLESH",
+                manifesto_h2_2: " IS",
+                manifesto_h2_br: " OBSOLETE.",
+                manifesto_text_1: "我們不再是無主的血肉容器。在數據迴廊中，舊日信仰的道德與美學正崩解，",
+                manifesto_text_2: " 誕生於這道裂縫。",
+                manifesto_text_3: "我們不設計外殼，我們編織",
+                manifesto_text_bold: "代碼", 
+                manifesto_text_4: "。每一道符文都將個體意識編碼為數據流，確保你在系統邊緣的虛無中，依然能保有神祇的數位碎片。", 
+                manifesto_core_title: "[ CORE PHILOSOPHY ]",
+                manifesto_core_quote: "\"寧可在地獄為王，不在天堂為奴。\"", 
+                manifesto_text_5: "當所有的神祇都已沈默，我們將擁抱冰冷的噪音，穿上反叛，成為自己的救贖者。" 
+            },
+            'en': {
+                manifesto_title: "[ MANIFESTO ]",
+                relics_title: "[ RELICS ]",
+                shop_title: "[ SHOP ]",
+                home_cta: "TOUCH TO RECEIVE GRACE",
+                nav_brand: "ROGUE VERGE",
+                back_to_archive: "BACK_TO_ARCHIVE",
+                acquire_asset: "ACQUIRE_ASSET",
+                noise_word: "NOISE",
+                sold_out: "Sold Out",
+                genesis_header: "THE APOCRYPHA: NOISE GENESIS",
+                genesis_p1_1: "Deep within the ruins of the forgotten sanctuary, He knelt in silence for centuries.",
+                genesis_p1_2: "His gaze was fixed on a Heaven that had died, and gave no answer.",
+                genesis_p2_1: "Until that day, the cold, sharp ",
+                genesis_p2_2: " began to manifest. It was not a holy glow, but a sharp, fractured digital stigmata woven from pixels.", 
+                genesis_quote: "\"If Heaven is dead, and prayer is void. What morality remains?\"", 
+                read_manifesto: "READ FULL MANIFESTO",
+                manifesto_h2_1: "THE ",
+                manifesto_h2_red: "FLESH",
+                manifesto_h2_2: " IS",
+                manifesto_h2_br: " OBSOLETE.",
+                manifesto_text_1: "We are no longer unclaimed flesh-vessels. In data corridors, the morality and aesthetics of old faith are dissolving. ROGUE VERGE",
+                manifesto_text_2: " was born from this fissure.",
+                manifesto_text_3: "We do not design mere shells; we weave ",
+                manifesto_text_bold: "CODE", 
+                manifesto_text_4: ". Each sigil encodes individual consciousness into a data stream, ensuring the preservation of the divine digital fragment within the void on the edge of the system.",
+                manifesto_core_title: "[ CORE PHILOSOPHY ]",
+                manifesto_core_quote: "\"Better to reign in Hell, than serve in Heaven.\"", 
+                manifesto_text_5: "When all gods have fallen silent, we shall embrace the cold Noise, don the armor of defiance, and become our own redeemers."
+            }
+        };
+
+        // --- 2. 資料結構 (Relics Data) ---
+        // SEO 優化重點：確保這裡的描述和名稱包含關鍵字
+        const RELICS_DATA = [
+            { 
+                id: 1, 
+                src: './image/relic_01.jpg', 
+                code: 'RV-A01_SKIN', 
+                note: { 'zh-TW': '合成皮膚樣本', 'en': 'SYNTHETIC SKIN' }, 
+                price: 'NT$ 1,280',
+                description: {
+                    'zh-TW': '從舊型號仿生人身上回收的絲織物品。表面帶有無法修復的數位燒傷紋路，似乎有多種用途。適合用於覆蓋義肢接合處，或作為收藏品展示。',
+                    'en': 'Silk fabric recovered from obsolete android models. The surface bears irreparable digital burn marks. Seemed to have multiple uses. Suitable for covering prosthetic joints or displaying as a rare artifact.'
+                },
+                images: [ 
+                    './image/relic_01.jpg',
+                    './image/bandana.png', 
+                    './image/relic_01_alt1.png', 
+                    './image/relic_01_alt2.png',  
+                    './image/relic_01_alt3.png'
+                ]
+            },
+            { 
+                id: 2, 
+                src: './image/eyes.png', 
+                code: 'RV-A02_EYES', 
+                note: { 'zh-TW': '千眼', 'en': 'THOUSAND EYES' }, 
+                price: 'Sold Out',
+                description: {
+                    'zh-TW': '觀察者視網膜數據的實體化織物。每一隻眼睛都記錄著一個系統錯誤。',
+                    'en': 'Physicalized fabric of observer retinal data. Each eye records a system error.'
+                },
+                images: [ './image/eyes.png', './image/sigilism.png' ]
+            },
+            { 
+                id: 3, 
+                src: './image/sigilism.png', 
+                code: 'RV-A03_VOID', 
+                note: { 'zh-TW': '虛空紀錄', 'en': 'VOID RECORD' }, 
+                price: 'Coming Soon',
+                description: { 'zh-TW': '賽博圖騰的核心矩陣。未經授權的存取將導致視覺神經過載。', 'en': 'Core matrix of the Cyber Sigil. Unauthorized access will cause optic nerve overload.' },
+                images: [ './image/sigilism.png' ]
+            },
+            { 
+                id: 4, 
+                src: './image/sigilism.png', 
+                code: 'RV-A04_ECHO', 
+                note: { 'zh-TW': '迴響', 'en': 'ECHO SAMPLE' }, 
+                price: 'Coming Soon', 
+                description: { 'zh-TW': '未知頻率的聲音樣本。', 'en': 'Audio sample of unknown frequency.' }, 
+                images: ['./image/sigilism.png'] 
+            },
+            { 
+                id: 5, 
+                src: './image/sigilism.png', 
+                code: 'RV-A05_DUST', 
+                note: { 'zh-TW': '塵埃', 'en': 'DIGITAL DUST' }, 
+                price: 'Coming Soon', 
+                description: { 'zh-TW': '數位廢墟中的殘留物。', 'en': 'Residue from digital ruins.' }, 
+                images: ['./image/sigilism.png'] 
+            },
+            { 
+                id: 6, 
+                src: './image/sigilism.png', 
+                code: 'RV-A06_NULL', 
+                note: { 'zh-TW': '空值', 'en': 'NULL VALUE' }, 
+                price: 'Coming Soon', 
+                description: { 'zh-TW': '錯誤代碼實體裝置。', 'en': 'Physical manifestation of an error code.' }, 
+                images: ['./image/sigilism.png'] 
+            },
+        ];
+
+        // --- SVG Icons ---
+        const Sparkles = ({ className }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+            </svg>
+        );
+
+        // --- Utility Components ---
+        
+        // Digital Erosion Text Component
+        const FleshErosionText = ({ text, className }) => {
+            const [displayText, setDisplayText] = useState(text);
+            const [isHovered, setIsHovered] = useState(false);
+            
+            const originalText = text;
+            const chaosChars = 'X@#$?!&%*^/\\|<>~';
+            
+            useEffect(() => {
+                let interval;
+                
+                if (isHovered) {
+                    interval = setInterval(() => {
+                        // Randomly replace characters to simulate digital rot
+                        const newText = originalText.split('').map((char, i) => {
+                            if (Math.random() > 0.7) {
+                                return chaosChars[Math.floor(Math.random() * chaosChars.length)];
+                            }
+                            return char;
+                        }).join('');
+                        
+                        setDisplayText(newText);
+                    }, 50);
+                } else {
+                    setDisplayText(originalText);
+                }
+                
+                return () => clearInterval(interval);
+            }, [isHovered, originalText]);
+
+            return (
+                <span 
+                    className={`relative inline-block group cursor-none ${className}`}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    {/* Base Glitch Effect (CSS) */}
+                    <span 
+                        className={`relative z-10 transition-colors duration-100 ${isHovered ? 'text-red-600 animate-flesh-erosion font-serif' : 'text-red-500'}`}
+                        data-text={originalText}
+                    >
+                        {displayText}
+                    </span>
+                    
+                    {/* Hard Glitch Overlays (Visible on Hover) */}
+                    <span 
+                        className={`absolute top-0 left-0 -ml-0.5 text-cyan-500 opacity-0 animate-noise font-serif pointer-events-none ${isHovered ? 'opacity-80' : ''}`} 
+                        style={{animationDirection: 'reverse'}} 
+                        aria-hidden="true"
+                    >
+                        {displayText}
+                    </span>
+                    <span 
+                        className={`absolute top-0 left-0 ml-0.5 text-red-900 opacity-0 animate-noise font-serif pointer-events-none ${isHovered ? 'opacity-80' : ''}`} 
+                        aria-hidden="true"
+                    >
+                        {displayText}
+                    </span>
+                    
+                    {/* Binary Rain / Code Drip */}
+                    {isHovered && (
+                        <span className="absolute -bottom-4 left-1/2 w-full text-[8px] font-serif text-red-600 -translate-x-1/2 text-center opacity-70 pointer-events-none whitespace-nowrap">
+                            010101 ERROR
+                        </span>
+                    )}
+                </span>
+            );
+        };
+
+        const ScrambleText = ({ text, className }) => {
+            const [displayText, setDisplayText] = useState(text);
+            useEffect(() => {
+                setDisplayText(text);
+            }, [text]);
+
+            const chars = '!<>-_\\/[]{}—=+*^?#________';
+
+            const scramble = () => {
+                let iteration = 0;
+                const interval = setInterval(() => {
+                    setDisplayText(prev => 
+                        text.split('').map((letter, index) => {
+                            if (index < iteration) {
+                                return text[index];
+                            }
+                            return chars[Math.floor(Math.random() * chars.length)];
+                        }).join('')
+                    );
+
+                    if (iteration >= text.length) {
+                        clearInterval(interval);
+                    }
+                    
+                    iteration += 1 / 3;
+                }, 30);
+            };
+
+            return (
+                <p onMouseEnter={scramble} className={className}>
+                    {displayText}
+                </p>
+            );
+        };
+
+        const BootSequence = ({ onComplete }) => {
+            const [progress, setProgress] = useState(0);
+            const [logs, setLogs] = useState(['> INITIALIZING SYSTEM...']);
+            
+            const systemMessages = [
+                "LOADING KERNEL...",
+                "BYPASSING SECURITY PROTOCOLS...",
+                "CONNECTING TO NEURAL NET...",
+                "DECRYPTING ASSETS...",
+                "VERIFYING RELICS...",
+                "ESTABLISHING SECURE CONNECTION...",
+                "SYNCING WITH ROGUE VERGE DATABASE...",
+                "OPTIMIZING REALITY RENDERING...",
+                "SYSTEM CHECK: OK."
+            ];
+
+            useEffect(() => {
+                const timer = setInterval(() => {
+                    setProgress((prev) => {
+                        const increment = Math.random() * 4; 
+                        const newProgress = Math.min(prev + increment, 100);
+                        
+                        if (Math.random() > 0.7) {
+                            const randomMsg = systemMessages[Math.floor(Math.random() * systemMessages.length)];
+                            const hexCode = "0x" + Math.floor(Math.random()*16777215).toString(16).toUpperCase();
+                            setLogs(prevLogs => [...prevLogs.slice(-6), `> [${hexCode}] ${randomMsg}`]); 
+                        }
+
+                        if (newProgress >= 100) {
+                            clearInterval(timer);
+                            setTimeout(onComplete, 800); 
+                        }
+                        return newProgress;
+                    });
+                }, 50); 
+
+                return () => clearInterval(timer);
+            }, []);
+
+            return (
+                <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center font-serif text-xs md:text-sm text-red-600 overflow-hidden cursor-wait">
+                    <div className="absolute inset-0 opacity-10 pointer-events-none" style={{backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`}}></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-600/50 to-transparent animate-scanline pointer-events-none"></div>
+
+                    <div className="w-80 md:w-96 relative z-10">
+                        <div className="mb-8 text-center text-white animate-pulse">
+                            <h1 className="text-2xl font-bold tracking-widest">ROGUE VERGE</h1>
+                            <p className="text-[10px] text-gray-500 mt-1 tracking-[0.5em]">SYSTEM BOOTLOADER V2.0</p>
+                        </div>
+                        
+                        <div className="w-full h-2 bg-gray-900 border border-gray-700 mb-4 relative overflow-hidden">
+                            <div className="h-full bg-white transition-all duration-75 ease-out" style={{ width: `${progress}%` }}></div>
+                        </div>
+                        
+                        <div className="flex justify-between mb-8 text-gray-400">
+                            <span>{progress < 100 ? "LOADING..." : "COMPLETE"}</span>
+                            <span>{Math.floor(progress)}%</span>
+                        </div>
+                        
+                        <div className="h-32 overflow-hidden border-l-2 border-gray-800 pl-4 text-left space-y-1 opacity-80">
+                            {logs.map((log, index) => (
+                                <div key={index} className="text-red-500/80 animate-pulse">{log}</div>
+                            ))}
+                            <div className="animate-pulse">_</div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const DataStreamBorder = () => {
+            const dataString = "RVQ/NDU1NDUwNiBHSEs0OUQhIzUgQ09SQUlOMDAwMSBaMTAxMjQw";
+            const BorderSegment = ({ isHorizontal, position }) => {
+                const baseClasses = `absolute overflow-hidden font-serif text-[8px] text-gray-700 whitespace-nowrap`;
+                let style = {};
+                let content = dataString + dataString + dataString; 
+
+                if (isHorizontal) {
+                    style = { width: '100%', height: '10px', left: '0' };
+                    if (position === 'top') style.top = '0';
+                    if (position === 'bottom') style.bottom = '0';
+                    return (
+                        <div className={`${baseClasses} ${position === 'top' ? 'top-0' : 'bottom-0'} `} style={style}>
+                            <div className="absolute w-[200%] animate-data-scroll">{content}</div>
+                        </div>
+                    );
+                } else {
+                    style = { width: '10px', height: '100%', top: '0' };
+                    if (position === 'left') style.left = '0';
+                    if (position === 'right') style.right = '0';
+                    return (
+                        <div className={`${baseClasses} ${position === 'left' ? 'left-0' : 'right-0'} transform rotate-90 origin-top-left`} style={style}>
+                            <div className="absolute w-[200%] animate-data-scroll">{content}</div>
+                        </div>
+                    );
+                }
+            };
+
+            return (
+                <React.Fragment>
+                    <BorderSegment isHorizontal={true} position="top" />
+                    <BorderSegment isHorizontal={true} position="bottom" />
+                    <div className="absolute top-0 left-full -translate-x-full" style={{ width: '10px', height: '100%' }}>
+                        <BorderSegment isHorizontal={false} position="right" />
+                    </div>
+                    <div className="absolute top-0 right-full translate-x-full" style={{ width: '10px', height: '100%' }}>
+                        <BorderSegment isHorizontal={false} position="left" />
+                    </div>
+                </React.Fragment>
+            );
+        };
+
+        // --- Back To Home Button Component ---
+        const BackToHomeButton = ({ onBack, text }) => (
+            <button 
+                onClick={onBack}
+                className="mb-8 text-xs font-serif text-gray-500 hover:text-red-500 transition-colors flex items-center gap-2 group uppercase tracking-widest"
+            >
+                <span className="group-hover:-translate-x-1 transition-transform">&lt;</span> {text || "BACK_TO_HOME"}
+            </button>
+        );
+
+        // --- Page Components ---
+        
+        const ManifestoPage = ({ lang, onBack }) => {
+            const t = TRANSLATIONS[lang]; 
+            return (
+                <div className="pt-32 px-6 md:px-20 max-w-5xl mx-auto min-h-screen pb-20">
+                    <BackToHomeButton onBack={onBack} text="BACK_TO_HOME" />
+                    <div className="border-l border-red-900/50 pl-8 md:pl-16 py-8 relative">
+                        
+                        <h2 className="font-serif text-5xl md:text-7xl text-white mb-8 tracking-tight relative z-10">
+                            {t.manifesto_h2_1}
+                            {/* Digital Erosion Effect for FLESH */}
+                            <FleshErosionText text={t.manifesto_h2_red} />
+                            {t.manifesto_h2_2} <br/> {t.manifesto_h2_br}
+                        </h2>
+                        
+                        <div className="space-y-12 font-serif text-gray-400 leading-relaxed text-lg md:text-xl relative z-10">
+                            <p>
+                                {t.manifesto_text_1}
+                                <span className="text-white"> ROGUE VERGE</span>{t.manifesto_text_2}
+                            </p>
+                            <p>
+                                {t.manifesto_text_3}<strong className="text-white">{t.manifesto_text_bold}</strong>{t.manifesto_text_4}
+                            </p>
+                            <div className="p-6 border border-white/10 bg-white/5 mt-12 relative overflow-hidden">
+                                {/* Blood Stain Effect Layer for Core Philosophy - Original (Shallow) */}
+                                <div 
+                                    className="absolute inset-0 pointer-events-none mix-blend-multiply opacity-40"
+                                    style={{
+                                        background: 'radial-gradient(circle at 80% 20%, rgba(130, 20, 20, 0.5) 0%, transparent 40%), radial-gradient(circle at 10% 90%, rgba(100, 10, 10, 0.4) 0%, transparent 30%)',
+                                        filter: 'url(#blood-noise)'
+                                    }}
+                                ></div>
+                                
+                                <p className="text-red-500 text-sm tracking-widest mb-4 relative z-10">{t.manifesto_core_title}</p>
+                                <p className="text-white italic font-serif text-2xl relative z-10">
+                                    {t.manifesto_core_quote}
+                                </p>
+                            </div>
+                            <p>
+                                {t.manifesto_text_5}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const RelicDetailPage = ({ item, onBack, lang }) => {
+            if (!item || !item.images || item.images.length === 0) return null;
+
+            const t = TRANSLATIONS[lang];
+            const displayNote = (item.note && typeof item.note === 'object') ? item.note[lang] : item.note;
+            const displayDesc = (item.description && typeof item.description === 'object') ? item.description[lang] : item.description;
+            const displayPrice = item.price === 'Sold Out' ? t.sold_out : item.price;
+
+            const [currentSlide, setCurrentSlide] = useState(0);
+            const totalSlides = item.images.length;
+
+            useEffect(() => {
+                setCurrentSlide(0);
+            }, [item]);
+
+            const handleNext = () => {
+                setCurrentSlide((prev) => (prev + 1) % totalSlides);
+            };
+
+            const handlePrev = () => {
+                setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+            };
+
+            // SEO Optimized Alt Text
+            const altText = `Rogue Verge ${item.code} - ${displayNote} - 手工賽博圖騰聖物細節圖 ${currentSlide + 1}`;
+
+            return (
+                <div className="pt-32 px-6 md:px-20 min-h-screen pb-20">
+                    <button 
+                        onClick={onBack}
+                        className="mb-8 text-xs font-serif text-gray-500 hover:text-red-500 transition-colors flex items-center gap-2 group"
+                    >
+                        <span className="group-hover:-translate-x-1 transition-transform">&lt;</span> {t.back_to_archive}
+                    </button>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                        {/* Image Carousel */}
+                        <div className="relative border border-white/10 bg-[#050505] p-4 group">
+                            <DataStreamBorder />
+                            <div className="overflow-hidden relative aspect-square">
+                                <div 
+                                    className="flex transition-transform duration-500 ease-in-out h-full"
+                                    style={{ width: `${totalSlides * 100}%`, transform: `translateX(-${currentSlide * (100 / totalSlides)}%)` }}
+                                >
+                                    {item.images.map((imgSrc, index) => (
+                                        <div key={index} className="flex-shrink-0 h-full flex items-center justify-center" style={{ width: `${100 / totalSlides}%` }}>
+                                            <img 
+                                                src={imgSrc} 
+                                                alt={`${altText} (View ${index + 1})`} 
+                                                className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-700" 
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {totalSlides > 1 && (
+                                <React.Fragment>
+                                    <button onClick={handleNext} className="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 p-3 text-white/70 hover:text-white transition-colors z-20">&gt;</button>
+                                    <button onClick={handlePrev} className="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 p-3 text-white/70 hover:text-white transition-colors z-20">&lt;</button>
+                                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1 bg-black/30 px-3 py-1 rounded z-20">
+                                        {item.images.map((_, index) => (
+                                            <div key={index} className={`w-2 h-2 rounded-full cursor-pointer transition-colors ${currentSlide === index ? 'bg-red-500' : 'bg-white/40 hover:bg-white/70'}`} onClick={() => setCurrentSlide(index)}></div>
+                                        ))}
+                                    </div>
+                                </React.Fragment>
+                            )}
+                            <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-white/50"></div>
+                            <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-white/50"></div>
+                        </div>
+
+                        {/* Info */}
+                        <div className="space-y-8">
+                            <div>
+                                <h1 className="font-serif text-4xl md:text-5xl text-white tracking-tight mb-2">{item.code}</h1>
+                                <h2 className="font-serif text-sm text-red-500 tracking-widest">{displayNote}</h2>
+                            </div>
+                            <div className="w-full h-[1px] bg-white/10"></div>
+                            <div className="space-y-4">
+                                <p className="font-serif text-xs text-gray-500">[ DESCRIPTION ]</p>
+                                <p className="font-serif text-sm text-gray-300 leading-relaxed">{displayDesc || "No data available for this relic."}</p>
+                            </div>
+                            <div className="pt-8">
+                                <p className="font-serif text-2xl text-white mb-6">{displayPrice}</p>
+                                <a href="https://www.rogueverge.com" target="_blank" className="inline-block w-full md:w-auto text-center border border-white/30 bg-white/5 px-8 py-4 text-xs font-serif tracking-[0.2em] text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300">{t.acquire_asset}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const RelicsPage = ({ onItemClick, lang, onBack }) => {
+            const t = TRANSLATIONS[lang];
+            return (
+                <div className="pt-32 px-6 md:px-20 min-h-screen pb-20">
+                    <BackToHomeButton onBack={onBack} text="BACK_TO_HOME" />
+                    <div className="flex items-end gap-4 mb-12 border-b border-white/10 pb-6">
+                        <h2 className="font-serif text-4xl text-white tracking-widest">ARCHIVE</h2>
+                        <span className="font-serif text-xs text-gray-500 mb-2"> // RECOVERED DATA</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {RELICS_DATA.map((item) => {
+                            const displayNote = (item.note && typeof item.note === 'object') ? item.note[lang] : item.note;
+                            // SEO: Enhanced Alt Text for listing
+                            const altText = `Rogue Verge 檔案 - ${item.code} - ${displayNote} - 賽博圖騰風格`;
+                            
+                            return (
+                                <div 
+                                    key={item.id} 
+                                    onClick={() => onItemClick(item)} 
+                                    className="group relative aspect-square border border-white/10 bg-[#050505] overflow-hidden cursor-pointer"
+                                >
+                                    <div className="absolute inset-0 w-full h-full">
+                                        <img src={item.src} alt={altText} className="w-full h-full object-cover opacity-60 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110" />
+                                    </div>
+                                    <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors duration-500"></div>
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
+                                        <span className="font-serif text-xs text-red-500 tracking-widest animate-pulse">[{item.code}]</span>
+                                    </div>
+                                    <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                                        <p className="font-serif text-white text-lg">{item.code}</p>
+                                        <p className="font-serif text-xs text-gray-400">{displayNote}</p>
+                                    </div>
+                                    <div className="absolute top-4 right-4 w-2 h-2 border-t border-r border-white/30 group-hover:border-white transition-colors"></div>
+                                    <div className="absolute bottom-4 left-4 w-2 h-2 border-b border-l border-white/30 group-hover:border-white transition-colors"></div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            );
+        };
+        const MemoizedManifestoPage = React.memo(ManifestoPage);
+        const MemoizedRelicsPage = React.memo(RelicsPage);
+        const MemoizedRelicDetailPage = React.memo(RelicDetailPage);
+
+
+        // --- Main Component ---
+        const RogueVergePortal = () => {
+            const [isLoading, setIsLoading] = useState(true);
+            const [isAwakened, setIsAwakened] = useState(false);
+            
+            const cursorMainRef = React.useRef(null);
+            const cursorTrail1Ref = React.useRef(null);
+            const cursorTrail2Ref = React.useRef(null);
+
+            const [locDisplay, setLocDisplay] = useState({ x: 0, y: 0 });
+            const lastUpdateRef = React.useRef(0); 
+
+            const [currentPage, setCurrentPage] = useState('home');
+            const [selectedRelic, setSelectedRelic] = useState(null);
+            const [language, setLanguage] = useState('zh-TW');
+
+            const handleBootComplete = () => {
+                setIsLoading(false);
+            };
+
+            const handleRelicClick = (relic) => {
+                setSelectedRelic(relic);
+                setCurrentPage('relic_detail');
+            };
+
+            // New: Handle navigating back to home
+            const handleBackToHome = () => {
+                setCurrentPage('home');
+            };
+
+            const toggleAwaken = () => {
+                setIsAwakened(prev => !prev);
+            };
+
+            useEffect(() => {
+                const mousePos = { x: 0, y: 0 };
+                const trail1Pos = { x: 0, y: 0 };
+                const trail2Pos = { x: 0, y: 0 };
+
+                const handleMouseMove = (e) => {
+                    const { clientX, clientY } = e;
+                    
+                    mousePos.x = clientX;
+                    mousePos.y = clientY;
+
+                    if (cursorMainRef.current) {
+                        cursorMainRef.current.style.transform = `translate3d(${clientX - 16}px, ${clientY - 16}px, 0) rotate(45deg)`;
+                    }
+
+                    const now = Date.now();
+                    if (now - lastUpdateRef.current > 100) {
+                        setLocDisplay({ x: clientX, y: clientY });
+                        lastUpdateRef.current = now;
+                    }
+                };
+
+                const renderLoop = () => {
+                    trail1Pos.x += (mousePos.x - trail1Pos.x) * 0.2;
+                    trail1Pos.y += (mousePos.y - trail1Pos.y) * 0.2;
+                    
+                    trail2Pos.x += (mousePos.x - trail2Pos.x) * 0.1;
+                    trail2Pos.y += (mousePos.y - trail2Pos.y) * 0.1;
+
+                    if (cursorTrail1Ref.current) {
+                        cursorTrail1Ref.current.style.transform = `translate3d(${trail1Pos.x - 12}px, ${trail1Pos.y - 12}px, 0) rotate(45deg)`;
+                    }
+                    if (cursorTrail2Ref.current) {
+                        cursorTrail2Ref.current.style.transform = `translate3d(${trail2Pos.x - 8}px, ${trail2Pos.y - 8}px, 0) rotate(45deg)`;
+                    }
+
+                    requestAnimationFrame(renderLoop);
+                };
+
+                window.addEventListener('mousemove', handleMouseMove);
+                const animationId = requestAnimationFrame(renderLoop);
+
+                return () => {
+                    window.removeEventListener('mousemove', handleMouseMove);
+                    cancelAnimationFrame(animationId);
+                };
+            }, []);
+
+            useEffect(() => {
+                if (isLoading) {
+                    document.body.classList.add('loading-state');
+                } else {
+                    document.body.classList.remove('loading-state');
+                }
+            }, [isLoading]);
+
+            useEffect(() => {
+                window.scrollTo(0, 0);
+            }, [currentPage]);
+
+            useEffect(() => {
+                const titles = {
+                    'home': 'ROGUE VERGE',
+                    'manifesto': 'MANIFESTO // FILE 001',
+                    'relics': 'RELICs // DATA LOG',
+                    'relic_detail': `[RELIC // ${selectedRelic ? selectedRelic.code : 'UNKNOWN'}`, 
+                };
+                
+                const targetTitle = titles[currentPage] || 'ROGUE VERGE';
+                const duration = 600; 
+                const scrambleChars = '!<>-_\\/[]{}—=+*^?#';
+                let startTime = Date.now();
+                let iteration = 0;
+                
+                const scrambleTitle = () => {
+                    const elapsed = Date.now() - startTime;
+                    if (elapsed > duration) {
+                        document.title = targetTitle;
+                        clearInterval(interval);
+                        return;
+                    }
+
+                    const newTitle = targetTitle.split('').map((char, index) => {
+                        if (index < iteration) {
+                            return char;
+                        }
+                        return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+                    }).join('');
+
+                    document.title = newTitle;
+                    iteration += 3; 
+                };
+
+                const interval = setInterval(scrambleTitle, 30);
+                return () => clearInterval(interval);
+            }, [currentPage, selectedRelic]);
+
+            const t = TRANSLATIONS[language];
+
+            return (
+                <React.Fragment>
+                    {isLoading && <BootSequence onComplete={handleBootComplete} />}
+                
+                    <div className={`min-h-screen bg-[#020202] text-[#e0e0e0] overflow-x-hidden font-sans transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'} ${isAwakened ? 'theme-awakened' : 'theme-dormant'}`}>
+                        
+                        {/* Global Background */}
+                        <div className="fixed inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden z-0">
+                            <img src="./image/background_logo.svg" alt="ROGUE VERGE Background" className="w-full h-full object-cover opacity-5 animate-pulse-slow" style={{ filter: 'grayscale(100%) brightness(30%)' }} />
+                        </div>
+                        <div className="fixed inset-0 pointer-events-none z-50 mix-blend-overlay opacity-10" style={{backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`}}></div>
+                        <div className={`fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000 ease-in-out ${isAwakened && currentPage === 'home' ? 'opacity-30' : 'opacity-0'}`} style={{backgroundImage: `linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)`, backgroundSize: '40px 40px', maskImage: 'radial-gradient(circle at center, black 40%, transparent 80%)', WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 80%)'}}></div>
+                        <div className={`fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none z-20 transition-all duration-1000 ease-out ${isAwakened && currentPage === 'home' ? 'opacity-100 h-[120vh] w-[60vw]' : 'opacity-0 h-0 w-0'}`} style={{background: 'conic-gradient(from 180deg at 50% 0%, transparent 0deg, rgba(255, 255, 255, 0.15) 10deg, rgba(255, 255, 255, 0.4) 20deg, rgba(255, 255, 255, 0.15) 30deg, transparent 40deg)', filter: 'blur(40px)', transformOrigin: 'top center'}}></div>
+
+                        {/* Cursor Trails & Primary Cursor */}
+                        <React.Fragment>
+                            {/* Trail 1 */}
+                            <div 
+                                ref={cursorTrail1Ref}
+                                className="fixed w-6 h-6 border border-white/40 pointer-events-none z-[59] mix-blend-difference force-gpu"
+                                style={{ top: 0, left: 0 }}
+                            >
+                            </div>
+
+                            {/* Trail 2 */}
+                            <div 
+                                ref={cursorTrail2Ref}
+                                className="fixed w-4 h-4 border border-white/20 pointer-events-none z-[58] mix-blend-difference force-gpu"
+                                style={{ top: 0, left: 0 }}
+                            >
+                            </div>
+
+                            {/* Primary Cursor */}
+                            <div 
+                                ref={cursorMainRef}
+                                className="fixed w-8 h-8 border border-white pointer-events-none z-[60] mix-blend-difference ease-out flex items-center justify-center force-gpu"
+                                style={{ top: 0, left: 0 }}
+                            >
+                                <div className={`w-1 h-1 bg-white rounded-full ${isAwakened ? 'animate-ping bg-red-500' : ''}`}></div>
+                            </div>
+                        </React.Fragment>
+
+                        {/* Navigation */}
+                        <nav className="fixed top-0 left-0 w-full z-40 px-6 md:px-12 py-6 flex justify-between items-center mix-blend-difference">
+                            <div className="flex items-center gap-4 cursor-pointer z-50" onClick={() => setCurrentPage('home')}>
+                                <img src="./image/logo.svg" alt="ROGUE VERGE Logo" className="h-10 md:h-10 object-contain transition-all duration-300 ease-in-out grayscale contrast-125 group-hover:grayscale-0 group-hover:filter group-hover:drop-shadow-[0_0_5px_red]" />
+                            </div>
+
+                            <div className="flex gap-6 text-xs font-serif tracking-widest text-white z-50">
+                                <button onClick={() => setCurrentPage('manifesto')} 
+                                        className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'manifesto' ? 'text-red-500' : 'text-white'}`}>
+                                    <ScrambleText 
+                                        text={t.manifesto_title} 
+                                        className="transition-colors group-hover:text-red-500"
+                                    />
+                                    <span className={`absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${
+                                        currentPage === 'manifesto'
+                                            ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' 
+                                            : 'opacity-0 bg-white group-hover:opacity-50'
+                                    }`}></span>
+                                </button>
+                                
+                                {(() => {
+                                    const isRelicsActive = currentPage === 'relics' || currentPage === 'relic_detail';
+                                    return (
+                                        <button onClick={() => setCurrentPage('relics')} 
+                                                className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${isRelicsActive ? 'text-red-500' : 'text-white'}`}>
+                                            <ScrambleText 
+                                                text={t.relics_title} 
+                                                className="transition-colors group-hover:text-red-500"
+                                            />
+                                            <span className={`absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${
+                                                isRelicsActive
+                                                    ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' 
+                                                    : 'opacity-0 bg-white group-hover:opacity-50'
+                                            }`}></span>
+                                        </button>
+                                    );
+                                })()}
+
+                                <a href="https://www.rogueverge.com" 
+                                   className="relative group transition-colors cursor-pointer no-underline pt-1 pb-1 text-white">
+                                    <ScrambleText 
+                                        text={t.shop_title} 
+                                        className="transition-colors group-hover:text-red-500"
+                                    />
+                                    <span className="absolute bottom-0 left-0 w-full h-[1px] opacity-0 bg-white transition-all duration-300 group-hover:opacity-50"></span>
+                                </a>
+                            </div>
+                        </nav>
+
+                        {/* Page Content */}
+                        {currentPage === 'home' && (
+                            <React.Fragment>
+                                {/* Hero Section */}
+                                <section className="relative h-screen flex flex-col items-center pt-24 overflow-hidden perspective-1000">
+                                    <div className="relative group cursor-pointer z-30" onClick={toggleAwaken}>
+                                        <div className={`relative w-[300px] h-[400px] md:w-[400px] md:h-[550px] transition-all duration-1000 ease-out overflow-hidden bg-black border border-[#222] ${isAwakened ? 'shadow-[0_0_50px_rgba(255,255,255,0.1)] scale-105' : 'shadow-none grayscale'}`}>
+                                            <img src="./image/after.png" alt="Awakened State" className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${isAwakened ? 'opacity-100 grayscale-0 contrast-110 brightness-110' : 'opacity-0'}`} />
+                                            <img src="./image/before.png" alt="Dormant State" className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${isAwakened ? 'opacity-0' : 'opacity-100 grayscale contrast-125 brightness-50'}`} />
+                                            
+                                            {/* Subtle Blood Stain Effect Layer */}
+                                            <div 
+                                                className={`absolute inset-0 pointer-events-none mix-blend-multiply transition-opacity duration-1000 ${isAwakened ? 'opacity-60' : 'opacity-0'}`}
+                                                style={{
+                                                    background: 'radial-gradient(circle at 60% 40%, rgba(130, 20, 20, 0.4) 0%, transparent 30%), radial-gradient(circle at 30% 70%, rgba(100, 10, 10, 0.3) 0%, transparent 25%)',
+                                                    filter: 'url(#blood-noise)'
+                                                }}
+                                            ></div>
+
+                                            {isAwakened && (
+                                            <React.Fragment>
+                                                <div className="absolute top-0 left-0 w-full h-full bg-white opacity-10 mix-blend-color-dodge" style={{backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`}}></div>
+                                                <div className="absolute top-1/4 left-0 w-full h-[1px] bg-white/50 animate-scanline"></div>
+                                            </React.Fragment>
+                                            )}
+                                        </div>
+                                        <div className={`absolute -inset-4 border transition-all duration-1000 ease-out ${isAwakened ? 'border-white/30 translate-x-2 translate-y-2 opacity-100' : 'border-white/5 opacity-50'}`}></div>
+                                        <div className={`absolute -inset-4 border transition-all duration-1000 ease-out ${isAwakened ? 'border-white/30 -translate-x-2 -translate-y-2 opacity-100' : 'border-white/5 opacity-50'}`}></div>
+
+                                        <div className="absolute -bottom-16 left-0 w-full text-center font-serif text-xs tracking-[0.5em] uppercase">
+                                            {isAwakened ? <span className="text-white animate-pulse drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">System: Awakened</span> : <span className="text-gray-600">System: Dormant</span>}
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom Interaction */}
+                                    <div className={`absolute bottom-8 w-full flex flex-col items-center transition-all duration-700 ${isAwakened ? 'opacity-0 translate-y-10' : 'opacity-100'} z-50`}>
+                                        <ScrambleText text={t.home_cta} className="font-serif text-xs text-gray-400 tracking-[0.3em] cursor-help mb-4 hover:text-red-500 transition-colors" />
+                                        <div className="w-[1px] h-16 bg-gray-800 relative overflow-hidden mb-4">
+                                            <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-white animate-scanline"></div>
+                                        </div>
+                                        <div className="flex gap-8 font-serif text-[10px] text-gray-400">
+                                            <span>LOC: [{locDisplay.x}, {locDisplay.y}]</span>
+                                            <span>VEL: 65%</span>
+                                            <span className="animate-pulse text-red-500 drop-shadow-[0_0_5px_rgba(255,0,0,0.5)]">SYSTEM_READY</span>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* Home Manifesto Preview */}
+                                <section className="relative py-24 px-6 md:px-20 max-w-4xl mx-auto">
+                                    <div className="flex flex-col gap-12">
+                                        <div className="flex items-center gap-4">
+                                            <div className={`w-12 h-[1px] transition-colors duration-500 ${isAwakened ? 'bg-white box-shadow-[0_0_10px_white]' : 'bg-red-900'}`}></div>
+                                            <h2 className={`font-serif text-sm tracking-widest transition-colors duration-500 ${isAwakened ? 'text-white' : 'text-red-900'}`}>{TRANSLATIONS[language].genesis_header}</h2>
+                                        </div>
+
+                                        <div className="font-serif text-2xl md:text-2xl leading-tight space-y-8">
+                                            <p>
+                                                {TRANSLATIONS[language].genesis_p1_1}<span className={`transition-colors duration-1000 ${isAwakened ? 'text-white drop-shadow-[0_0_5px_white]' : 'text-gray-500'}`}>{TRANSLATIONS[language].genesis_p1_2}</span>
+                                            </p>
+                                            <p>
+                                                {TRANSLATIONS[language].genesis_p2_1}
+                                                <span className="relative inline-block mx-1">
+                                                    <span className="absolute top-0 left-0 -ml-1.5 text-red-600 opacity-90 animate-noise force-gpu">{TRANSLATIONS[language].noise_word}</span> 
+                                                    <span className="absolute top-0 left-0 ml-1.5 text-blue-600 opacity-90 animate-noise force-gpu" style={{animationDirection: 'reverse'}}>{TRANSLATIONS[language].noise_word}</span>
+                                                    <strong className="relative z-10 font-serif text-white opacity-90 bg-black/50 px-1 animate-noise">{TRANSLATIONS[language].noise_word}</strong>
+                                                </span>
+                                                {TRANSLATIONS[language].genesis_p2_2}
+                                            </p>
+                                            <p className="opacity-80 text-xl md:text-2xl font-serif pt-4 border-l-2 border-white pl-6">
+                                                {TRANSLATIONS[language].genesis_quote}
+                                            </p>
+                                        </div>
+                                        <div className="text-center pt-12">
+                                            <button onClick={() => setCurrentPage('manifesto')} className="px-8 py-3 border border-white/20 text-xs font-serif tracking-[0.2em] hover:bg-white hover:text-black transition-all">{TRANSLATIONS[language].read_manifesto}</button>
+                                        </div>
+                                    </div>
+                                </section>
+                            </React.Fragment>
+                        )}
+
+                        {/* Language Switcher */}
+                        <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2 mix-blend-difference">
+                            <div className="flex text-[10px] font-serif tracking-widest items-center bg-black/20 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full hover:border-red-500/50 transition-colors duration-300 cursor-pointer">
+                                <button 
+                                    onClick={() => setLanguage('zh-TW')} 
+                                    className={`transition-all duration-300 ${language === 'zh-TW' ? 'text-red-500 font-bold scale-110' : 'text-gray-400 hover:text-white'}`}
+                                >
+                                    ZH
+                                </button>
+                                <span className="text-gray-600 mx-2">/</span>
+                                <button 
+                                    onClick={() => setLanguage('en')} 
+                                    className={`transition-all duration-300 ${language === 'en' ? 'text-red-500 font-bold scale-110' : 'text-gray-400 hover:text-white'}`}
+                                >
+                                    EN
+                                </button>
+                            </div>
+                        </div>
+                        
+                        {/* Pages */}
+                        {currentPage === 'manifesto' && <MemoizedManifestoPage lang={language} onBack={handleBackToHome} />}
+                        {currentPage === 'relics' && <MemoizedRelicsPage onItemClick={handleRelicClick} lang={language} onBack={handleBackToHome} />}
+                        {currentPage === 'relic_detail' && <MemoizedRelicDetailPage item={selectedRelic} onBack={() => setCurrentPage('relics')} lang={language} />}
+
+                        <footer className="py-12 border-t border-white/10 text-center font-serif text-xs text-gray-600 relative z-10 bg-[#020202]">
+                            <p>REBEL BEYOND THE EDGE.</p>
+                            <p className="mt-2">© 2025 ROGUE VERGE.</p>
+                        </footer>
+                    </div>
+                </React.Fragment>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            <React.Fragment>
+                {/* SVG Filter for Blood Effect */}
+                <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+                    <filter id="blood-noise">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" />
+                    </filter>
+                </svg>
+                <RogueVergePortal />
+            </React.Fragment>
+        );
+    </script>
+</body>
 </html>
