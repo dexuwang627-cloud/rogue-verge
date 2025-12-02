@@ -75,6 +75,14 @@ const Layout = ({ lang, setLang }) => {
         <React.Fragment>
             {isLoading && <BootSequence onComplete={handleBootComplete} />}
 
+            {/* SVG Filter for Blood Effect */}
+            <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+                <filter id="blood-noise">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" />
+                </filter>
+            </svg>
+
             <div className={`min-h-screen bg-[#020202] text-[#e0e0e0] overflow-x-hidden font-sans transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'} ${isAwakened ? 'theme-awakened' : 'theme-dormant'}`}>
 
                 {/* Global Background */}
@@ -94,7 +102,7 @@ const Layout = ({ lang, setLang }) => {
 
                 <Navbar lang={lang} setLang={setLang} />
 
-                <main className="relative z-10">
+                <main className="relative z-30">
                     <Outlet context={{ isAwakened, toggleAwaken, mousePos }} />
                 </main>
 
