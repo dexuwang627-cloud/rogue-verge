@@ -1,68 +1,63 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* Custom Styles from legacy index.html */
+body { margin: 0; background-color: #020202; cursor: none; }
+.perspective-1000 { perspective: 1000px; }
+::selection { background: #7f1d1d; color: white; }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #020202; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+.loading-state { overflow: hidden; height: 100vh; }
+.force-gpu {
+    will-change: transform, opacity, filter;
+    transform: translateZ(0);
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+/* Digital Erosion Specific Styles */
+.glitch-text {
+    position: relative;
+    display: inline-block;
 }
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #020202;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.glitch-text::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
 }
-button:hover {
-  border-color: #646cff;
+.glitch-text::after {
+    left: -2px;
+    text-shadow: -1px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+@keyframes glitch-anim-1 {
+    0% { clip: rect(39px, 9999px, 71px, 0); }
+    20% { clip: rect(3px, 9999px, 5px, 0); }
+    40% { clip: rect(68px, 9999px, 13px, 0); }
+    60% { clip: rect(77px, 9999px, 62px, 0); }
+    80% { clip: rect(12px, 9999px, 68px, 0); }
+    100% { clip: rect(93px, 9999px, 52px, 0); }
 }
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+@keyframes glitch-anim-2 {
+    0% { clip: rect(69px, 9999px, 81px, 0); }
+    20% { clip: rect(4px, 9999px, 95px, 0); }
+    40% { clip: rect(53px, 9999px, 22px, 0); }
+    60% { clip: rect(87px, 9999px, 12px, 0); }
+    80% { clip: rect(32px, 9999px, 8px, 0); }
+    100% { clip: rect(2px, 9999px, 42px, 0); }
 }
