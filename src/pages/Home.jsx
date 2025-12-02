@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import ScrambleText from '../components/UI/ScrambleText';
 import { TRANSLATIONS } from '../data/constants';
 
-const Home = ({ isAwakened, toggleAwaken, mousePos, lang }) => {
+const Home = ({ lang }) => {
+    const { isAwakened, toggleAwaken, mousePos } = useOutletContext();
     const t = TRANSLATIONS[lang];
 
     return (

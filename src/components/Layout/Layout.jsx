@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import BootSequence from '../UI/BootSequence';
 
-const Layout = ({ children, lang, setLang }) => {
+const Layout = ({ lang, setLang }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isAwakened, setIsAwakened] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -94,8 +95,7 @@ const Layout = ({ children, lang, setLang }) => {
                 <Navbar lang={lang} setLang={setLang} />
 
                 <main className="relative z-10">
-                    {/* Pass isAwakened state to children if needed, or use Context */}
-                    {React.cloneElement(children, { isAwakened, toggleAwaken, mousePos })}
+                    <Outlet context={{ isAwakened, toggleAwaken, mousePos }} />
                 </main>
 
                 {/* Language Switcher */}

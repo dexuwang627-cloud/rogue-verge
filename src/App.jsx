@@ -11,14 +11,14 @@ function App() {
 
   return (
     <Router>
-      <Layout lang={lang} setLang={setLang}>
-        <Routes>
+      <Routes>
+        <Route element={<Layout lang={lang} setLang={setLang} />}>
           <Route path="/" element={<Home lang={lang} />} />
           <Route path="/manifesto" element={<Manifesto lang={lang} />} />
           <Route path="/relics" element={<Relics lang={lang} />} />
           <Route path="/relics/:id" element={<RelicDetail lang={lang} />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </Router>
   );
 }
