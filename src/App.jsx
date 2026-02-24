@@ -8,7 +8,7 @@ import { BootSequence } from './components/ui/BootSequence';
 import { CustomCursor } from './components/ui/CustomCursor';
 import { ScrambleText } from './components/ui/ScrambleText';
 import { Home } from './components/pages/Home';
-import { Manifesto } from './components/pages/Manifesto';
+
 import { Relics } from './components/pages/Relics';
 import { RelicDetail } from './components/pages/RelicDetail';
 import { Me } from './components/pages/Me';
@@ -22,7 +22,7 @@ export default function App() {
   const [language, setLanguage] = useState('zh-TW');
 
   // Refs for triggering scramble on hover
-  const manifestoRef = useRef(null);
+
   const relicsRef = useRef(null);
   const meRef = useRef(null);
 
@@ -54,7 +54,7 @@ export default function App() {
   useEffect(() => {
     const titles = {
       'home': 'ROGUE VERGE',
-      'manifesto': 'MANIFESTO // FILE 001',
+
       'relics': 'RELICs // DATA LOG',
       'relic_detail': `[ R / V ] RELIC // ${selectedRelic ? selectedRelic.code : 'UNKNOWN'}`,
       'me': '[ ME ] // PROFILE',
@@ -115,13 +115,7 @@ export default function App() {
           </div>
 
           <div className="flex gap-6 text-xs font-serif tracking-widest text-white z-50">
-            <button
-              onClick={() => setCurrentPage('manifesto')}
-              onMouseEnter={() => manifestoRef.current?.scramble()}
-              className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'manifesto' ? 'text-red-500' : 'text-white'}`}>
-              <ScrambleText ref={manifestoRef} text={t.manifesto_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
-              <span className={`pointer-events-none absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'manifesto' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
-            </button>
+
 
             <button
               onClick={() => setCurrentPage('relics')}
@@ -171,7 +165,7 @@ export default function App() {
         </div>
 
         {/* Pages */}
-        {currentPage === 'manifesto' && <Manifesto lang={language} />}
+
         {currentPage === 'relics' && <Relics onItemClick={handleRelicClick} lang={language} />}
         {currentPage === 'relic_detail' && <RelicDetail item={selectedRelic} onBack={() => setCurrentPage('relics')} lang={language} />}
         {currentPage === 'me' && <Me lang={language} />}
