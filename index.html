@@ -16,9 +16,9 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        serif: ['Cinzel', 'ui-serif', 'Georgia', 'serif'],
+                        serif: ['Cinzel', 'Noto Serif TC', 'ui-serif', 'Georgia', 'serif'],
                         mono: ['Space Mono', 'ui-monospace', 'Consolas', 'monospace'],
-                        sans: ['Inter', 'ui-sans-serif', 'Arial', 'sans-serif'],
+                        sans: ['Inter', 'Noto Sans TC', 'ui-sans-serif', 'system-ui', 'sans-serif'],
                     },
                     animation: {
                         'spin-slow': 'spin 10s linear infinite',
@@ -50,8 +50,10 @@
         }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=IBM+Plex+Mono:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap"
         rel="stylesheet">
 
     <style>
@@ -543,7 +545,7 @@
                 {
                     company: isZh ? '系統整合與專案開發 | 綠世得科技有限公司' : 'System Integration & Project Development | Greenworld Technology Corp.',
                     period: 'Jul 2024 - Present',
-                    role: isZh ? '共同創辦人' : 'Co-Founder',
+                    role: isZh ? '創辦人' : 'Founder',
                     details: isZh ? [
                         '開發可與電池管理系統 (BMS) 及太陽能儲能設備整合的消防安全通訊與控制系統。',
                         '運用 Zabbix 與 Grafana 進行系統監控、架構設計與數據視覺化。',
@@ -641,7 +643,7 @@
             };
 
             return (
-                <div className="pt-32 px-6 md:px-20 max-w-5xl mx-auto min-h-screen pb-20 fade-in">
+                <div className={`pt-32 px-6 md:px-20 max-w-5xl mx-auto min-h-screen pb-20 fade-in ${isZh ? 'font-serif' : 'font-sans'}`}>
                     <header className="mb-16 border-l-4 border-red-600 pl-6">
                         <h1 className="text-5xl md:text-7xl font-serif text-white tracking-tight mb-2">Wang Te-Hsu</h1>
                         <p className="text-red-500 font-mono tracking-widest text-sm uppercase">{labels.subtitle}</p>
