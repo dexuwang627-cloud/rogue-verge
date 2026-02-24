@@ -202,43 +202,18 @@ export const GlitchGeometryBlock = () => {
 
                     {/* Decrypted Text Container — mix-blend lets background spikes overlay edges */}
                     <div ref={textContainerRef} className="absolute z-40 flex items-center justify-center opacity-0 pointer-events-none w-full h-full mix-blend-difference">
-                        <span className="relative inline-block">
-                            {/* Glitch fragment layers — red / cyan offset clones */}
-                            <span
-                                aria-hidden
-                                className="absolute inset-0 font-serif text-5xl md:text-8xl text-red-500/70 tracking-[0.2em] font-bold"
-                                style={{
-                                    animation: 'glitchClip 3s steps(2, end) infinite',
-                                    clipPath: 'polygon(0 15%, 100% 15%, 100% 40%, 0 40%)',
-                                    transform: 'translate(3px, -2px)'
-                                }}
-                            >
-                                ROGUE VERGE
-                            </span>
-                            <span
-                                aria-hidden
-                                className="absolute inset-0 font-serif text-5xl md:text-8xl text-cyan-400/50 tracking-[0.2em] font-bold"
-                                style={{
-                                    animation: 'glitchClip2 2.5s steps(3, end) infinite',
-                                    clipPath: 'polygon(0 65%, 100% 65%, 100% 85%, 0 85%)',
-                                    transform: 'translate(-3px, 2px)'
-                                }}
-                            >
-                                ROGUE VERGE
-                            </span>
-                            {/* Main text — no glow */}
-                            <DecryptedText
-                                ref={textTriggerRef}
-                                text="ROGUE VERGE"
-                                speed={50}
-                                maxIterations={15}
-                                sequential={true}
-                                revealDirection="center"
-                                className="font-serif text-5xl md:text-8xl text-white tracking-[0.2em] font-bold"
-                                encryptedClassName="text-red-500 font-mono tracking-widest opacity-80"
-                                animateOn="none"
-                            />
-                        </span>
+                        <DecryptedText
+                            ref={textTriggerRef}
+                            text="ROGUE VERGE"
+                            speed={20}
+                            maxIterations={100}
+                            sequential={true}
+                            revealDirection="center"
+                            className="text-5xl md:text-8xl text-white tracking-[0.2em] font-bold uppercase"
+                            style={{ fontFamily: "'Oswald', sans-serif" }}
+                            encryptedClassName="text-red-500 tracking-widest opacity-80"
+                            animateOn="none"
+                        />
                     </div>
                 </div>
 

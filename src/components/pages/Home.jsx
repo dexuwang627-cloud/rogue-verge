@@ -24,6 +24,9 @@ export const Home = ({ isAwakened, toggleAwaken, setCurrentPage, lang }) => {
 
     return (
         <React.Fragment>
+            {/* Glitch Effect Element — Top of page */}
+            <GlitchGeometryBlock />
+
             {/* Hero Section */}
             <section className="relative h-screen flex flex-col items-center pt-24 overflow-hidden perspective-1000">
                 <div className="relative group cursor-pointer z-30" onClick={toggleAwaken}>
@@ -59,9 +62,6 @@ export const Home = ({ isAwakened, toggleAwaken, setCurrentPage, lang }) => {
                     </div>
                 </div>
             </section>
-
-            {/* Glitch Effect Element */}
-            <GlitchGeometryBlock />
         </React.Fragment>
     );
 };
