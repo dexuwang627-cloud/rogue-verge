@@ -31,8 +31,8 @@ export const Home = ({ isAwakened, toggleAwaken, setCurrentPage, lang }) => {
             <section className="relative h-screen flex flex-col items-center pt-24 overflow-hidden perspective-1000">
                 <div className="relative group cursor-pointer z-30" onClick={toggleAwaken}>
                     <div className={`relative w-[300px] h-[400px] md:w-[400px] md:h-[550px] transition-all duration-1000 ease-out overflow-hidden bg-black border border-[#222] ${isAwakened ? 'shadow-[0_0_50px_rgba(255,255,255,0.1)] scale-105' : 'shadow-none grayscale'}`}>
-                        <img src="./image/after.png" alt="Awakened State" className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${isAwakened ? 'opacity-100 grayscale-0 contrast-110 brightness-110' : 'opacity-0'}`} />
-                        <img src="./image/before.png" alt="Dormant State" className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${isAwakened ? 'opacity-0' : 'opacity-100 grayscale contrast-125 brightness-50'}`} />
+                        <img src="/image/after.png" alt="Awakened State" className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${isAwakened ? 'opacity-100 grayscale-0 contrast-110 brightness-110' : 'opacity-0'}`} />
+                        <img src="/image/before.png" alt="Dormant State" className={`absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-out ${isAwakened ? 'opacity-0' : 'opacity-100 grayscale contrast-125 brightness-50'}`} />
 
                         {isAwakened && (
                             <React.Fragment>

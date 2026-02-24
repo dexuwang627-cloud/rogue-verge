@@ -22,7 +22,7 @@ export const GlitchGeometryBlock = () => {
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let img = new Image();
-        img.src = './image/sigilism.png';
+        img.src = '/image/sigilism.png';
 
         let width = 0;
         let height = 0;
