@@ -614,12 +614,22 @@
             ];
 
             const skills = [
-                { label: isZh ? '技術工具' : 'TECHNICAL TOOLS', value: 'Supabase, Zabbix, Grafana' },
-                { label: isZh ? '專業技能' : 'EXPERTISE', value: isZh ? '系統架構設計、資料視覺化、SEO、資訊安全' : 'System Architecture, Data Visualization, SEO, Web Security' },
-                { label: isZh ? '設計與軟體' : 'SOFTWARE & DESIGN', value: 'DaVinci Resolve, CapCut, Adobe Illustrator, Affinity, Canva' },
-                { label: isZh ? '語言' : 'LANGUAGES', value: isZh ? '中文、英文' : 'Chinese, English' },
-                { label: isZh ? '志工' : 'VOLUNTEERS', value: isZh ? '方舟協會（食物發放公益組織）' : 'Ark Association (Food Distribution)' },
-                { label: isZh ? '興趣' : 'INTERESTS', value: isZh ? '跑步、羽毛球、時尚' : 'Running, Badminton, Fashion' }
+                {
+                    label: isZh ? '程式開發與維運' : 'DEV & DEVOPS',
+                    items: ['Python', 'Docker', 'GitHub', 'Supabase', 'Mermaid']
+                },
+                {
+                    label: isZh ? '系統架構與監控管理' : 'ARCHITECTURE & MONITORING',
+                    items: isZh ? ['系統架構設計', 'Zabbix', 'Grafana', '資料視覺化', 'SEO', '資訊安全'] : ['System Architecture', 'Zabbix', 'Grafana', 'Data Visualization', 'SEO', 'Web Security']
+                },
+                {
+                    label: isZh ? '設計與後製軟體' : 'DESIGN & PRODUCTION',
+                    items: ['DaVinci Resolve', 'CapCut', 'Adobe Illustrator', 'Affinity', 'Canva']
+                },
+                {
+                    label: isZh ? '語言與其他' : 'LANGUAGES & OTHERS',
+                    items: isZh ? ['中文 (Native)', '英文 (Fluent)', '方舟協會志工', '跑步', '羽毛球', '時尚設計'] : ['Chinese (Native)', 'English (Fluent)', 'Ark Association Vol.', 'Running', 'Badminton', 'Fashion']
+                }
             ];
 
             const labels = {
@@ -709,9 +719,18 @@
                             </h2>
                             <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300">
                                 {skills.map((s, idx) => (
-                                    <div key={idx} className="border border-white/10 p-4 bg-white/5">
-                                        <strong className="text-white block mb-2 font-serif">{s.label}</strong>
-                                        {s.value}
+                                    <div key={idx} className="border border-white/10 p-5 bg-[#0a0a0a] hover:border-red-500/50 transition-colors group">
+                                        <div className="flex items-center mb-4">
+                                            <div className="w-1.5 h-1.5 bg-red-600 mr-2 group-hover:animate-pulse"></div>
+                                            <strong className="text-white font-serif tracking-widest uppercase">{s.label}</strong>
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {s.items.map((item, iIdx) => (
+                                                <span key={iIdx} className="border border-white/20 bg-white/5 px-2.5 py-1 text-xs font-mono text-gray-400 group-hover:border-red-500/30 group-hover:text-red-100 transition-colors">
+                                                    {item}
+                                                </span>
+                                            ))}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
