@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cinzel", "Noto Serif TC", ui-serif, Georgia, serif;
+  --font-mono: "Space Mono", ui-monospace, Consolas, monospace;
+  --font-sans: "Inter", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-spin-slow: spin 10s linear infinite;
+  --animate-scanline: scanline 2s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-noise: noise 0.2s steps(2) infinite;
+  --animate-data-scroll: data-scroll 10s linear infinite;
+
+  @keyframes scanline {
+    0% { top: 0%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes noise {
+    0% { transform: translate(0,0); }
+    25% { transform: translate(-4px, 4px); }
+    50% { transform: translate(4px, -4px); }
+    75% { transform: translate(-4px, -4px); }
+    100% { transform: translate(4px, 4px); }
+  }
+  /* Escaped name to avoid issue with dash if necessary, but standard CSS is fine */
+  @keyframes data-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
+body {
+  margin: 0;
+  background-color: #020202;
+  cursor: none;
+}
+
+/* Touch devices optimization */
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+::selection {
+  background: #7f1d1d;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020202;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.loading-state {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.force-gpu {
+  will-change: transform, opacity, filter;
+  transform: translateZ(0);
+}
