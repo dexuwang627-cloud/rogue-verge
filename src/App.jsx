@@ -112,20 +112,20 @@ export default function App() {
           <div className="flex gap-6 text-xs font-serif tracking-widest text-white z-50">
             <button onClick={() => setCurrentPage('manifesto')}
               className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'manifesto' ? 'text-red-500' : 'text-white'}`}>
-              <ScrambleText text={t.manifesto_title} className="transition-colors group-hover:text-red-500" />
-              <span className={`absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'manifesto' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
+              <ScrambleText text={t.manifesto_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
+              <span className={`pointer-events-none absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'manifesto' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
             </button>
 
             <button onClick={() => setCurrentPage('relics')}
               className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'relics' || currentPage === 'relic_detail' ? 'text-red-500' : 'text-white'}`}>
-              <ScrambleText text={t.relics_title} className="transition-colors group-hover:text-red-500" />
-              <span className={`absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'relics' || currentPage === 'relic_detail' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
+              <ScrambleText text={t.relics_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
+              <span className={`pointer-events-none absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'relics' || currentPage === 'relic_detail' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
             </button>
 
             <button onClick={() => setCurrentPage('me')}
               className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'me' ? 'text-red-500' : 'text-white'}`}>
-              <ScrambleText text={t.me_title} className="transition-colors group-hover:text-red-500" />
-              <span className={`absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'me' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
+              <ScrambleText text={t.me_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
+              <span className={`pointer-events-none absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'me' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
             </button>
           </div>
         </nav>
