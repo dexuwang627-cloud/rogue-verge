@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { DecryptedText } from './DecryptedText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +11,9 @@ export const GlitchGeometryBlock = () => {
     const topRef = useRef(null);
     const canvasRef = useRef(null);
     const animationRef = useRef(null);
+    const overlayRef = useRef(null);
+    const textContainerRef = useRef(null);
+    const textTriggerRef = useRef(null);
     const scaleRef = useRef({ value: 0.25 });
 
     // Canvas animation logic (Top Section Background)
@@ -132,6 +136,8 @@ export const GlitchGeometryBlock = () => {
 
     // GSAP ScrollTrigger Logic
     useGSAP(() => {
+        let textTriggered = false;
+
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: sectionRef.current,
@@ -139,7 +145,15 @@ export const GlitchGeometryBlock = () => {
                 end: "+=150%", // Extend scroll distance for smoother experience
                 scrub: 1, // Smooth scrubbing
                 pin: true,
-                anticipatePin: 1
+                anticipatePin: 1,
+                onUpdate: (self) => {
+                    if (self.progress > 0.8 && !textTriggered) {
+                        textTriggered = true;
+                        if (textTriggerRef.current) textTriggerRef.current.startScramble();
+                    } else if (self.progress < 0.8 && textTriggered) {
+                        textTriggered = false;
+                    }
+                }
             }
         });
 
@@ -149,6 +163,21 @@ export const GlitchGeometryBlock = () => {
             duration: 1,
             ease: "power2.inOut"
         }, 0);
+
+        // Fade in dark overlay to reduce glitch visibility to 20% (opacity 0.8 black)
+        tl.to(overlayRef.current, {
+            opacity: 0.8,
+            duration: 0.3,
+            ease: "power2.inOut"
+        }, 0.7);
+
+        // Fade in text container
+        tl.to(textContainerRef.current, {
+            opacity: 1,
+            duration: 0.3,
+            ease: "power2.inOut"
+        }, 0.7);
+
     }, { scope: sectionRef });
 
     return (
@@ -165,9 +194,26 @@ export const GlitchGeometryBlock = () => {
                     {/* Scanlines Overlay (Hardware Accelerated CSS) */}
                     <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, black 2px, black 4px)' }}></div>
                     {/* Vignette Overlay */}
-                    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-80"></div>
-                    <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-transparent to-black opacity-60"></div>
+                    <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-80 z-20"></div>
+                    <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-transparent to-black opacity-60 z-20"></div>
 
+                    {/* Darkening Overlay for Text Reveal */}
+                    <div ref={overlayRef} className="absolute inset-0 pointer-events-none bg-black opacity-0 z-30"></div>
+
+                    {/* Decrypted Text Container */}
+                    <div ref={textContainerRef} className="absolute z-40 flex items-center justify-center opacity-0 pointer-events-none w-full h-full">
+                        <DecryptedText
+                            ref={textTriggerRef}
+                            text="ROGUE VERGE"
+                            speed={50}
+                            maxIterations={15}
+                            sequential={true}
+                            revealDirection="center"
+                            className="font-serif text-5xl md:text-8xl text-white tracking-[0.2em] font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+                            encryptedClassName="text-red-500 font-mono tracking-widest opacity-80"
+                            animateOn="none"
+                        />
+                    </div>
                 </div>
 
             </div>
