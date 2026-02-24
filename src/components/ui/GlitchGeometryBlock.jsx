@@ -209,7 +209,7 @@ export const GlitchGeometryBlock = () => {
                             maxIterations={15}
                             sequential={true}
                             revealDirection="center"
-                            className="font-sans text-5xl md:text-8xl text-white tracking-[0.2em] font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+                            className="font-serif text-5xl md:text-8xl text-white tracking-[0.2em] font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
                             encryptedClassName="text-red-500 font-mono tracking-widest opacity-80"
                             animateOn="none"
                         />
