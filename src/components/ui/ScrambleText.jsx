@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 
-export const ScrambleText = ({ text, className }) => {
+export const ScrambleText = forwardRef(({ text, className }, ref) => {
     const textRef = useRef(null);
     const intervalRef = useRef(null);
     const chars = '!<>-_\\/[]{}—=+*^?#________';
@@ -38,9 +38,13 @@ export const ScrambleText = ({ text, className }) => {
         }, 30);
     };
 
+    useImperativeHandle(ref, () => ({
+        scramble
+    }));
+
     return (
         <span ref={textRef} onMouseEnter={scramble} className={className}>
             {text}
         </span>
     );
-};
+});
