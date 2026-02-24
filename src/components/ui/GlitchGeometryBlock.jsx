@@ -188,11 +188,11 @@ export const GlitchGeometryBlock = () => {
                     {/* Canvas Background */}
                     <canvas
                         ref={canvasRef}
-                        className="absolute inset-0 w-full h-full mix-blend-screen opacity-60 filter contrast-125 saturate-150"
+                        className="absolute inset-0 w-full h-full mix-blend-screen opacity-100 filter contrast-125 saturate-150"
                     />
 
                     {/* Scanlines Overlay (Hardware Accelerated CSS) */}
-                    <div className="absolute inset-0 pointer-events-none opacity-30 mix-blend-overlay" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, black 2px, black 4px)' }}></div>
+                    <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-overlay" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, black 2px, black 4px)' }}></div>
                     {/* Vignette Overlay */}
                     <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-80 z-20"></div>
                     <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-transparent to-black opacity-60 z-20"></div>
@@ -209,7 +209,7 @@ export const GlitchGeometryBlock = () => {
                             maxIterations={15}
                             sequential={true}
                             revealDirection="center"
-                            className="font-serif text-5xl md:text-8xl text-white tracking-[0.2em] font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+                            className="font-sans text-5xl md:text-8xl text-white tracking-[0.2em] font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
                             encryptedClassName="text-red-500 font-mono tracking-widest opacity-80"
                             animateOn="none"
                         />
