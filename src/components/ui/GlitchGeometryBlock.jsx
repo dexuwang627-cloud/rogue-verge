@@ -164,9 +164,9 @@ export const GlitchGeometryBlock = () => {
             ease: "power2.inOut"
         }, 0);
 
-        // Fade in dark overlay to reduce glitch visibility to 20% (opacity 0.8 black)
+        // Fade in dark overlay — keep it semi-transparent so background spikes bleed through
         tl.to(overlayRef.current, {
-            opacity: 0.8,
+            opacity: 0.5,
             duration: 0.3,
             ease: "power2.inOut"
         }, 0.7);
@@ -200,19 +200,45 @@ export const GlitchGeometryBlock = () => {
                     {/* Darkening Overlay for Text Reveal */}
                     <div ref={overlayRef} className="absolute inset-0 pointer-events-none bg-black opacity-0 z-30"></div>
 
-                    {/* Decrypted Text Container */}
-                    <div ref={textContainerRef} className="absolute z-40 flex items-center justify-center opacity-0 pointer-events-none w-full h-full">
-                        <DecryptedText
-                            ref={textTriggerRef}
-                            text="ROGUE VERGE"
-                            speed={50}
-                            maxIterations={15}
-                            sequential={true}
-                            revealDirection="center"
-                            className="font-serif text-5xl md:text-8xl text-white tracking-[0.2em] font-bold drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-                            encryptedClassName="text-red-500 font-mono tracking-widest opacity-80"
-                            animateOn="none"
-                        />
+                    {/* Decrypted Text Container — mix-blend lets background spikes overlay edges */}
+                    <div ref={textContainerRef} className="absolute z-40 flex items-center justify-center opacity-0 pointer-events-none w-full h-full mix-blend-difference">
+                        <span className="relative inline-block">
+                            {/* Glitch fragment layers — red / cyan offset clones */}
+                            <span
+                                aria-hidden
+                                className="absolute inset-0 font-serif text-5xl md:text-8xl text-red-500/70 tracking-[0.2em] font-bold"
+                                style={{
+                                    animation: 'glitchClip 3s steps(2, end) infinite',
+                                    clipPath: 'polygon(0 15%, 100% 15%, 100% 40%, 0 40%)',
+                                    transform: 'translate(3px, -2px)'
+                                }}
+                            >
+                                ROGUE VERGE
+                            </span>
+                            <span
+                                aria-hidden
+                                className="absolute inset-0 font-serif text-5xl md:text-8xl text-cyan-400/50 tracking-[0.2em] font-bold"
+                                style={{
+                                    animation: 'glitchClip2 2.5s steps(3, end) infinite',
+                                    clipPath: 'polygon(0 65%, 100% 65%, 100% 85%, 0 85%)',
+                                    transform: 'translate(-3px, 2px)'
+                                }}
+                            >
+                                ROGUE VERGE
+                            </span>
+                            {/* Main text — no glow */}
+                            <DecryptedText
+                                ref={textTriggerRef}
+                                text="ROGUE VERGE"
+                                speed={50}
+                                maxIterations={15}
+                                sequential={true}
+                                revealDirection="center"
+                                className="font-serif text-5xl md:text-8xl text-white tracking-[0.2em] font-bold"
+                                encryptedClassName="text-red-500 font-mono tracking-widest opacity-80"
+                                animateOn="none"
+                            />
+                        </span>
                     </div>
                 </div>
 
