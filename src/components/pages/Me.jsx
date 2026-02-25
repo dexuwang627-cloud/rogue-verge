@@ -112,7 +112,7 @@ const SecureChannel = ({ isZh }) => {
     return (
         <section>
             <h2 className="text-2xl font-serif text-white border-b border-white/20 pb-4 mb-8 flex items-center">
-                <span className="text-red-500 mr-2">05 //</span>
+                <span className="text-red-500 mr-2">04 //</span>
                 {isZh ? '安全通道' : 'SECURE CHANNEL'}
             </h2>
 
@@ -145,8 +145,8 @@ const SecureChannel = ({ isZh }) => {
                     <div
                         onClick={handleCopyEmail}
                         className={`relative cursor-pointer border p-4 transition-all duration-300 group/email ${copied
-                                ? 'border-green-500/50 bg-green-500/5'
-                                : 'border-white/10 bg-white/[0.02] hover:border-red-500/50 hover:bg-red-500/5'
+                            ? 'border-green-500/50 bg-green-500/5'
+                            : 'border-white/10 bg-white/[0.02] hover:border-red-500/50 hover:bg-red-500/5'
                             }`}
                     >
                         <div className="flex items-center justify-between">
@@ -209,13 +209,6 @@ const SecureChannel = ({ isZh }) => {
 export const Me = ({ lang }) => {
     const isZh = lang === 'zh-TW';
     const t = TRANSLATIONS[lang]?.me || TRANSLATIONS.en.me;
-    const education = {
-        school: isZh ? '國立清華大學 — 經濟學系' : 'National Tsing Hua University - Economics Department',
-        period: 'Sep 2022 - Present',
-        desc: isZh
-            ? '以數據驅動的行銷與市場分析為核心，透過自有品牌進行市場驗證與消費者評估，將數據洞察轉化為可量化的行銷成果。'
-            : 'Data-driven marketing and market analysis encompass market validation and consumer assessment through proprietary brands, with the objective of converting data insights into measurable marketing outcomes.'
-    };
 
     const experiences = [
         {
@@ -294,67 +287,60 @@ export const Me = ({ lang }) => {
     const skills = [
         {
             label: isZh ? '程式開發與維運' : 'DEV & DEVOPS',
-            items: ['Python', 'Docker', 'GitHub', 'Supabase', 'Mermaid']
+            items: ['Python 3.x', 'JavaScript / ES6+', 'React / Vite', 'Docker / Compose', 'Git / GitHub Actions', 'Supabase (BaaS)', 'REST API Design', 'Mermaid / PlantUML']
         },
         {
             label: isZh ? '系統架構與監控管理' : 'ARCHITECTURE & MONITORING',
-            items: isZh ? ['系統架構設計', 'Zabbix', 'Grafana', '資料視覺化', 'SEO', '資訊安全'] : ['System Architecture', 'Zabbix', 'Grafana', 'Data Visualization', 'SEO', 'Web Security']
+            items: isZh
+                ? ['系統架構設計', 'Zabbix 監控平台', 'Grafana 儀表板', 'Modbus / RS-485 通訊', '資料視覺化', 'SEO 最佳化', '資訊安全 / SSL']
+                : ['System Architecture', 'Zabbix Monitoring', 'Grafana Dashboards', 'Modbus / RS-485', 'Data Visualization', 'Technical SEO', 'Web Security / SSL']
         },
         {
             label: isZh ? '設計與後製軟體' : 'DESIGN & PRODUCTION',
-            items: ['DaVinci Resolve', 'CapCut', 'Adobe Illustrator', 'Affinity', 'Canva']
+            items: ['DaVinci Resolve', 'CapCut Pro', 'Adobe Illustrator', 'Affinity Designer', 'Canva', 'Figma']
         },
         {
             label: isZh ? '語言與其他' : 'LANGUAGES & OTHERS',
-            items: isZh ? ['中文 (Native)', '英文 (Fluent)', '方舟協會志工', '跑步', '羽毛球', '時尚設計'] : ['Chinese (Native)', 'English (Fluent)', 'Ark Association Vol.', 'Running', 'Badminton', 'Fashion']
+            items: isZh
+                ? ['中文 (Native)', '英文 (Fluent)', '方舟協會志工', '跑步', '羽毛球', '時尚設計']
+                : ['Chinese (Native)', 'English (Fluent)', 'Ark Association Vol.', 'Running', 'Badminton', 'Fashion Design']
         }
     ];
 
     const labels = {
         subtitle: isZh ? '履歷 / 職涯資料' : 'Resume / Professional Data',
-        edu: isZh ? '學歷' : 'EDUCATION',
         exp: isZh ? '專業經歷' : 'PROFESSIONAL EXPERIENCE',
         lead: isZh ? '領導力與專案管理職務' : 'LEADERSHIP & PROJECT MANAGEMENT',
         supp: isZh ? '其他技能' : 'SUPPLEMENTARY SKILLS',
     };
 
     return (
-        <div className={`pt-32 px-6 md:px-20 max-w-5xl mx-auto min-h-screen pb-20 fade-in ${isZh ? 'font-serif' : 'font-sans'}`}>
+        <div className="pt-32 px-6 md:px-20 max-w-5xl mx-auto min-h-screen pb-20 fade-in font-serif">
             <header className="mb-16 border-l-4 border-red-600 pl-6">
                 <h1 className="text-5xl md:text-7xl font-serif text-white tracking-tight mb-2">Wang Te-Hsu</h1>
                 <p className="text-red-500 font-mono tracking-widest text-sm uppercase">{labels.subtitle}</p>
             </header>
 
             <div className="space-y-16">
-                {/* EDUCATION */}
-                <section>
-                    <h2 className="text-2xl font-serif text-white border-b border-white/20 pb-4 mb-8 flex items-center">
-                        <span className="text-red-500 mr-2">01 //</span> {labels.edu}
-                    </h2>
-                    <div className="md:grid md:grid-cols-[1fr_auto] gap-4 mb-4">
-                        <h3 className="text-xl font-bold text-gray-200">{education.school}</h3>
-                        <div className="text-red-500 font-mono text-sm">{education.period}</div>
-                    </div>
-                    <p className="text-gray-400 leading-relaxed max-w-3xl">{education.desc}</p>
-                </section>
+
 
                 {/* PROFESSIONAL EXPERIENCE */}
                 <section>
                     <h2 className="text-2xl font-serif text-white border-b border-white/20 pb-4 mb-8 flex items-center">
-                        <span className="text-red-500 mr-2">02 //</span> {labels.exp}
+                        <span className="text-red-500 mr-2">01 //</span> {labels.exp}
                     </h2>
                     <div className="space-y-10">
                         {experiences.map((exp, idx) => (
                             <div key={idx} className="relative pl-6 border-l border-white/10 hover:border-red-500/50 transition-colors">
                                 <div className="absolute top-0 left-[-4px] w-2 h-2 bg-red-600 rounded-full"></div>
                                 <div className="md:flex justify-between items-baseline mb-2">
-                                    <h3 className="text-xl font-bold text-gray-200">{exp.company}</h3>
+                                    <h3 className="text-xl font-serif font-bold text-gray-200">{exp.company}</h3>
                                     <span className="text-red-500 font-mono text-xs whitespace-nowrap">{exp.period}</span>
                                 </div>
                                 {exp.role && <div className="text-white/80 font-serif italic mb-3">{exp.role}</div>}
                                 <ul className="space-y-2">
                                     {exp.details.map((detail, dIdx) => (
-                                        <li key={dIdx} className="text-gray-400 text-sm leading-relaxed flex items-start">
+                                        <li key={dIdx} className="text-gray-400 font-mono text-sm leading-relaxed flex items-start">
                                             <span className="text-red-900 mr-2 mt-1">::</span>
                                             {detail}
                                         </li>
@@ -368,19 +354,19 @@ export const Me = ({ lang }) => {
                 {/* LEADERSHIP */}
                 <section>
                     <h2 className="text-2xl font-serif text-white border-b border-white/20 pb-4 mb-8 flex items-center">
-                        <span className="text-red-500 mr-2">03 //</span> {labels.lead}
+                        <span className="text-red-500 mr-2">02 //</span> {labels.lead}
                     </h2>
                     <div className="space-y-10">
                         {leadership.map((item, idx) => (
                             <div key={idx} className="relative group">
                                 <div className="md:flex justify-between items-baseline mb-2">
-                                    <h3 className="text-lg font-bold text-gray-200 group-hover:text-red-500 transition-colors">{item.organization}</h3>
+                                    <h3 className="text-lg font-serif font-bold text-gray-200 group-hover:text-red-500 transition-colors">{item.organization}</h3>
                                     <span className="text-gray-600 font-mono text-xs whitespace-nowrap">{item.period}</span>
                                 </div>
                                 <div className="text-white/80 font-serif italic mb-3">{item.role}</div>
                                 <ul className="space-y-2 border-l border-white/5 pl-4 ml-1">
                                     {item.details.map((detail, dIdx) => (
-                                        <li key={dIdx} className="text-gray-400 text-sm leading-relaxed">
+                                        <li key={dIdx} className="text-gray-400 font-mono text-sm leading-relaxed">
                                             - {detail}
                                         </li>
                                     ))}
@@ -393,7 +379,7 @@ export const Me = ({ lang }) => {
                 {/* SKILLS */}
                 <section>
                     <h2 className="text-2xl font-serif text-white border-b border-white/20 pb-4 mb-8 flex items-center">
-                        <span className="text-red-500 mr-2">04 //</span> {labels.supp}
+                        <span className="text-red-500 mr-2">03 //</span> {labels.supp}
                     </h2>
                     <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300">
                         {skills.map((s, idx) => (

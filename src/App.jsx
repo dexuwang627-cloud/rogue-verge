@@ -12,6 +12,7 @@ import { Home } from './components/pages/Home';
 import { Relics } from './components/pages/Relics';
 import { RelicDetail } from './components/pages/RelicDetail';
 import { Me } from './components/pages/Me';
+import { Codex } from './components/pages/Codex';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,7 +25,9 @@ export default function App() {
   // Refs for triggering scramble on hover
 
   const relicsRef = useRef(null);
-  const meRef = useRef(null);
+  const codexRef = useRef(null);
+  const logoClickCount = useRef(0);
+  const logoClickTimer = useRef(null);
 
   const handleBootComplete = () => {
     setIsLoading(false);
@@ -55,9 +58,10 @@ export default function App() {
     const titles = {
       'home': 'ROGUE VERGE',
 
+      'codex': '[ R / V ] CODEX // THE FLESH IS OBSOLETE',
       'relics': 'RELICs // DATA LOG',
       'relic_detail': `[ R / V ] RELIC // ${selectedRelic ? selectedRelic.code : 'UNKNOWN'}`,
-      'me': '[ ME ] // PROFILE',
+      'me': '[ R / V ] // UNKNOWN',
     };
 
     const targetTitle = titles[currentPage] || 'ROGUE VERGE';
@@ -110,7 +114,29 @@ export default function App() {
 
         {/* Navigation */}
         <nav className="fixed top-0 left-0 w-full z-40 px-6 md:px-12 py-6 flex justify-between items-center mix-blend-difference">
-          <div className="flex items-center gap-4 cursor-pointer z-50 group" onClick={() => setCurrentPage('home')}>
+          <div className="flex items-center gap-4 cursor-pointer z-50 group" onClick={() => {
+            // Secret entrance: 5 rapid clicks to access hidden Me page
+            logoClickCount.current += 1;
+            clearTimeout(logoClickTimer.current);
+
+            if (logoClickCount.current >= 5) {
+              logoClickCount.current = 0;
+              // Glitch flash feedback
+              document.body.style.transition = 'filter 0.1s';
+              document.body.style.filter = 'invert(1) hue-rotate(180deg)';
+              setTimeout(() => {
+                document.body.style.filter = 'none';
+                setCurrentPage('me');
+              }, 150);
+            } else {
+              // Navigate home immediately on any click
+              setCurrentPage('home');
+              // Reset counter after 2 seconds of inactivity (for secret entrance detection only)
+              logoClickTimer.current = setTimeout(() => {
+                logoClickCount.current = 0;
+              }, 2000);
+            }
+          }}>
             <img src="/image/logo.svg" alt="ROGUE VERGE Logo" className="h-10 md:h-10 object-contain transition-all duration-300 ease-in-out grayscale contrast-125 group-hover:grayscale-0 group-hover:filter group-hover:drop-shadow-[0_0_5px_red]" />
           </div>
 
@@ -118,19 +144,19 @@ export default function App() {
 
 
             <button
+              onClick={() => setCurrentPage('codex')}
+              onMouseEnter={() => codexRef.current?.scramble()}
+              className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'codex' ? 'text-red-500' : 'text-white'}`}>
+              <ScrambleText ref={codexRef} text={t.codex_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
+              <span className={`pointer-events-none absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'codex' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
+            </button>
+
+            <button
               onClick={() => setCurrentPage('relics')}
               onMouseEnter={() => relicsRef.current?.scramble()}
               className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'relics' || currentPage === 'relic_detail' ? 'text-red-500' : 'text-white'}`}>
               <ScrambleText ref={relicsRef} text={t.relics_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
               <span className={`pointer-events-none absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'relics' || currentPage === 'relic_detail' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
-            </button>
-
-            <button
-              onClick={() => setCurrentPage('me')}
-              onMouseEnter={() => meRef.current?.scramble()}
-              className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'me' ? 'text-red-500' : 'text-white'}`}>
-              <ScrambleText ref={meRef} text={t.me_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
-              <span className={`pointer-events-none absolute bottom-0 left-0 w-full h-[1px] transition-all duration-300 force-gpu ${currentPage === 'me' ? 'opacity-100 bg-red-600 shadow-[0_0_5px_red] animate-pulse' : 'opacity-0 bg-white group-hover:opacity-50'}`}></span>
             </button>
           </div>
         </nav>
@@ -166,6 +192,7 @@ export default function App() {
 
         {/* Pages */}
 
+        {currentPage === 'codex' && <Codex lang={language} />}
         {currentPage === 'relics' && <Relics onItemClick={handleRelicClick} lang={language} />}
         {currentPage === 'relic_detail' && <RelicDetail item={selectedRelic} onBack={() => setCurrentPage('relics')} lang={language} />}
         {currentPage === 'me' && <Me lang={language} />}

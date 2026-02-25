@@ -169,3 +169,18 @@ body {
     transform: translate(-3px, 2px);
   }
 }
+
+/* ═══════════════════════════════════════════
+   Codex page — scroll reveal animations
+═══════════════════════════════════════════ */
+.codex-fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.codex-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
