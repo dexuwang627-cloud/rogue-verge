@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TRANSLATIONS } from '../../data/constants';
 import { DataStreamBorder } from '../ui/DataStreamBorder';
 
@@ -8,14 +8,22 @@ export const RelicDetail = ({ item, onBack, lang }) => {
     const t = TRANSLATIONS[lang];
     const displayNote = (item.note && typeof item.note === 'object') ? item.note[lang] : item.note;
     const displayDesc = (item.description && typeof item.description === 'object') ? item.description[lang] : item.description;
-    const displayPrice = item.price === 'Sold Out' ? t.sold_out : item.price;
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const totalSlides = item.images.length;
+    const containerRef = useRef(null);
 
     useEffect(() => {
         setCurrentSlide(0);
     }, [item]);
+
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        requestAnimationFrame(() => {
+            el.classList.add('fade-enter-active');
+        });
+    }, []);
 
     const handleNext = () => {
         setCurrentSlide((prev) => (prev + 1) % totalSlides);
@@ -26,7 +34,7 @@ export const RelicDetail = ({ item, onBack, lang }) => {
     };
 
     return (
-        <div className="pt-32 px-6 md:px-20 min-h-screen pb-20">
+        <div ref={containerRef} className="fade-enter pt-32 px-6 md:px-20 min-h-screen pb-20">
             <button
                 onClick={onBack}
                 className="mb-8 text-xs font-serif text-gray-500 hover:text-red-500 transition-colors flex items-center gap-2 group"
@@ -74,10 +82,6 @@ export const RelicDetail = ({ item, onBack, lang }) => {
                     <div className="space-y-4">
                         <p className="font-serif text-xs text-gray-500">[ DESCRIPTION ]</p>
                         <p className="font-serif text-sm text-gray-300 leading-relaxed">{displayDesc || "No data available for this relic."}</p>
-                    </div>
-                    <div className="pt-8">
-                        <p className="font-serif text-2xl text-white mb-6">{displayPrice}</p>
-                        <a href="https://www.rogueverge.com" target="_blank" rel="noopener noreferrer" className="inline-block w-full md:w-auto text-center border border-white/30 bg-white/5 px-8 py-4 text-xs font-serif tracking-[0.2em] text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300">{t.acquire_asset}</a>
                     </div>
                 </div>
             </div>
