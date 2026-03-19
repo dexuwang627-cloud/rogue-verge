@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from 'react';
-import { motion } from 'framer-motion';
 
 /**
  * DecryptedText component from React Bits
@@ -26,9 +25,6 @@ export const DecryptedText = forwardRef(({
     const [hasAnimated, setHasAnimated] = useState(false);
     const containerRef = useRef(null);
     const intervalRef = useRef(null);
-
-    // Provide default fallback if framer-motion is missing, but this should be wrapped
-    const MotionComponent = 'span';
 
     useEffect(() => {
         let isObserverActive = false;
@@ -118,7 +114,7 @@ export const DecryptedText = forwardRef(({
     }));
 
     return (
-        <motion.span
+        <span
             ref={containerRef}
             className={`inline-block ${parentClassName}`}
             onMouseEnter={handleMouseEnter}
@@ -128,6 +124,6 @@ export const DecryptedText = forwardRef(({
             <span className={`${className} ${isScrambling ? encryptedClassName : ''}`}>
                 {displayText}
             </span>
-        </motion.span>
+        </span>
     );
 });
