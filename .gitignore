@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# --- Baseline hygiene ---
+.env
+.env.*
+!.env.example
+!.env.mock
+node_modules/
+dist/
+build/
+.next/
+coverage/
+.pytest_cache/
+__pycache__/
+*.pyc
+.pids/
+playwright-report/
+test-results/

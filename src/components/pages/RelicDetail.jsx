@@ -52,7 +52,7 @@ export const RelicDetail = ({ item, onBack, lang }) => {
                         >
                             {item.images.map((imgSrc, index) => (
                                 <div key={index} className="flex-shrink-0 h-full flex items-center justify-center" style={{ width: `${100 / totalSlides}%` }}>
-                                    <img src={imgSrc} alt={`${item.code} - ${index}`} className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-700" />
+                                    <img src={imgSrc} alt={`${item.code} - ${index}`} loading="lazy" className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-700" />
                                 </div>
                             ))}
                         </div>

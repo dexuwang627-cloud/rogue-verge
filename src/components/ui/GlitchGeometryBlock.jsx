@@ -26,6 +26,8 @@ export const GlitchGeometryBlock = () => {
 
         let width = 0;
         let height = 0;
+        let isMounted = true;
+        let isVisible = false;
 
         const resize = () => {
             if (!topRef.current) return;
@@ -46,7 +48,7 @@ export const GlitchGeometryBlock = () => {
         };
 
         const render = () => {
-            if (!isMounted) return;
+            if (!isMounted || !isVisible) return;
             const w = canvas.width;
             const h = canvas.height;
             if (w === 0 || h === 0) {
@@ -117,17 +119,43 @@ export const GlitchGeometryBlock = () => {
         window.addEventListener('resize', resize);
         resize();
 
-        let isMounted = true;
+        // Intersection Observer to pause animation when off-screen
+        const observer = new IntersectionObserver((entries) => {
+            if (!isMounted) return;
+            const entry = entries[0];
+            isVisible = entry.isIntersecting;
+
+            if (isVisible) {
+                if (!animationRef.current && img.complete) {
+                    animationRef.current = requestAnimationFrame(render);
+                }
+            } else {
+                if (animationRef.current) {
+                    cancelAnimationFrame(animationRef.current);
+                    animationRef.current = null;
+                }
+            }
+        }, { threshold: 0 });
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
 
         img.onload = () => {
-            if (isMounted) {
-                animationRef.current = requestAnimationFrame(render);
+            if (isMounted && isVisible) {
+                if (!animationRef.current) {
+                    animationRef.current = requestAnimationFrame(render);
+                }
             }
         };
 
         return () => {
             isMounted = false;
             window.removeEventListener('resize', resize);
+            if (sectionRef.current) {
+                observer.unobserve(sectionRef.current);
+            }
+            observer.disconnect();
             if (animationRef.current) {
                 cancelAnimationFrame(animationRef.current);
             }

@@ -1,0 +1,28 @@
+{
+  "aliases": {
+    "@/": "src/"
+  },
+  "rules": [
+    {
+      "id": "components-no-pages",
+      "from": "src/components",
+      "forbidden": [
+        "src/pages"
+      ]
+    },
+    {
+      "id": "lib-no-pages",
+      "from": "src/lib",
+      "forbidden": [
+        "src/pages"
+      ]
+    },
+    {
+      "id": "hooks-no-pages",
+      "from": "src/hooks",
+      "forbidden": [
+        "src/pages"
+      ]
+    }
+  ]
+}

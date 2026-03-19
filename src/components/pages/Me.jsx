@@ -9,7 +9,15 @@ const SecureChannel = ({ isZh }) => {
     const [copied, setCopied] = useState(false);
     const [terminalLines, setTerminalLines] = useState([]);
     const terminalRef = useRef(null);
+    const timeoutsRef = useRef([]);
     const email = 'rogueverge@gmail.com';
+
+    // Cleanup timeouts on unmount
+    useEffect(() => {
+        return () => {
+            timeoutsRef.current.forEach(clearTimeout);
+        };
+    }, []);
 
     // Terminal boot sequence on mount
     useEffect(() => {
@@ -21,9 +29,10 @@ const SecureChannel = ({ isZh }) => {
         ];
 
         bootLines.forEach(({ text, delay }) => {
-            setTimeout(() => {
+            const id = setTimeout(() => {
                 setTerminalLines(prev => [...prev, text]);
             }, delay);
+            timeoutsRef.current.push(id);
         });
     }, []);
 
@@ -46,12 +55,14 @@ const SecureChannel = ({ isZh }) => {
                 '> TRANSMISSION STATUS: ✓ SUCCESS',
             ];
             transmitLines.forEach((line, i) => {
-                setTimeout(() => {
+                const id = setTimeout(() => {
                     setTerminalLines(prev => [...prev, line]);
                 }, i * 200);
+                timeoutsRef.current.push(id);
             });
 
-            setTimeout(() => setCopied(false), 3000);
+            const copyId = setTimeout(() => setCopied(false), 3000);
+            timeoutsRef.current.push(copyId);
         } catch (err) {
             setTerminalLines(prev => [...prev, '> ERROR: CLIPBOARD ACCESS DENIED']);
         }
