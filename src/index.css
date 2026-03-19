@@ -60,23 +60,6 @@
     }
   }
 
-  @keyframes scanline-wipe-enter {
-    0% {
-      transform: scaleY(0);
-    }
-    100% {
-      transform: scaleY(1);
-    }
-  }
-
-  @keyframes scanline-wipe-exit {
-    0% {
-      transform: scaleY(1);
-    }
-    100% {
-      transform: scaleY(0);
-    }
-  }
 }
 
 body {
@@ -126,6 +109,25 @@ body {
 .force-gpu {
   will-change: transform, opacity, filter;
   transform: translateZ(0);
+}
+
+/* Scanline wipe page transition */
+@keyframes scanline-wipe-enter {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes scanline-wipe-exit {
+  0% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(0);
+  }
 }
 
 /* Glitch clip-path fragment animations for DecryptedText overlay */
