@@ -13,6 +13,7 @@ import { Relics } from './components/pages/Relics';
 import { RelicDetail } from './components/pages/RelicDetail';
 import { Me } from './components/pages/Me';
 import { Codex } from './components/pages/Codex';
+import { PageTransition } from './components/ui/PageTransition';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,8 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [selectedRelic, setSelectedRelic] = useState(null);
   const [language, setLanguage] = useState('zh-TW');
+  const [transition, setTransition] = useState({ isActive: false, phase: null, pendingPage: null });
+  const transitionLock = useRef(false);
 
   // Refs for triggering scramble on hover
 
@@ -35,12 +38,42 @@ export default function App() {
 
   const handleRelicClick = (relic) => {
     setSelectedRelic(relic);
-    setCurrentPage('relic_detail');
+    navigateTo('relic_detail', { lightweight: true });
   };
 
   const toggleAwaken = () => {
     setIsAwakened(prev => !prev);
   };
+
+  const navigateTo = (page, { lightweight = false } = {}) => {
+    if (transitionLock.current || page === currentPage) return;
+
+    if (lightweight) {
+      setCurrentPage(page);
+      window.scrollTo(0, 0);
+    } else {
+      transitionLock.current = true;
+      setTransition({ isActive: true, phase: 'enter', pendingPage: page });
+    }
+  };
+
+  const handleTransitionPhaseComplete = () => {
+    setTransition((prev) => {
+      if (prev.phase === 'enter') {
+        return { ...prev, phase: 'swap' };
+      }
+      transitionLock.current = false;
+      return { isActive: false, phase: null, pendingPage: null };
+    });
+  };
+
+  useEffect(() => {
+    if (transition.phase === 'swap') {
+      setCurrentPage(transition.pendingPage);
+      window.scrollTo(0, 0);
+      setTransition((prev) => ({ ...prev, phase: 'exit' }));
+    }
+  }, [transition.phase]);
 
   useEffect(() => {
     if (isLoading) {
@@ -49,10 +82,6 @@ export default function App() {
       document.body.classList.remove('loading-state');
     }
   }, [isLoading]);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentPage]);
 
   useEffect(() => {
     const titles = {
@@ -111,6 +140,11 @@ export default function App() {
 
         {/* Custom Cursor */}
         <CustomCursor isAwakened={isAwakened} />
+        <PageTransition
+          isActive={transition.isActive}
+          phase={transition.phase}
+          onPhaseComplete={handleTransitionPhaseComplete}
+        />
 
         {/* Navigation */}
         <nav className="fixed top-0 left-0 w-full z-40 px-6 md:px-12 py-6 flex justify-between items-center mix-blend-difference">
@@ -130,7 +164,7 @@ export default function App() {
               }, 150);
             } else {
               // Navigate home immediately on any click
-              setCurrentPage('home');
+              navigateTo('home');
               // Reset counter after 2 seconds of inactivity (for secret entrance detection only)
               logoClickTimer.current = setTimeout(() => {
                 logoClickCount.current = 0;
@@ -144,7 +178,7 @@ export default function App() {
 
 
             <button
-              onClick={() => setCurrentPage('codex')}
+              onClick={() => navigateTo('codex')}
               onMouseEnter={() => codexRef.current?.scramble()}
               className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'codex' ? 'text-red-500' : 'text-white'}`}>
               <ScrambleText ref={codexRef} text={t.codex_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
@@ -152,7 +186,7 @@ export default function App() {
             </button>
 
             <button
-              onClick={() => setCurrentPage('relics')}
+              onClick={() => navigateTo('relics')}
               onMouseEnter={() => relicsRef.current?.scramble()}
               className={`relative group transition-colors pt-1 pb-1 cursor-pointer ${currentPage === 'relics' || currentPage === 'relic_detail' ? 'text-red-500' : 'text-white'}`}>
               <ScrambleText ref={relicsRef} text={t.relics_title} className="transition-colors group-hover:text-red-500 pointer-events-none" />
@@ -166,7 +200,6 @@ export default function App() {
           <Home
             isAwakened={isAwakened}
             toggleAwaken={toggleAwaken}
-            setCurrentPage={setCurrentPage}
             lang={language}
           />
         )}
@@ -194,7 +227,7 @@ export default function App() {
 
         {currentPage === 'codex' && <Codex lang={language} />}
         {currentPage === 'relics' && <Relics onItemClick={handleRelicClick} lang={language} />}
-        {currentPage === 'relic_detail' && <RelicDetail item={selectedRelic} onBack={() => setCurrentPage('relics')} lang={language} />}
+        {currentPage === 'relic_detail' && <RelicDetail item={selectedRelic} onBack={() => navigateTo('relics', { lightweight: true })} lang={language} />}
         {currentPage === 'me' && <Me lang={language} />}
       </div>
     </React.Fragment>
