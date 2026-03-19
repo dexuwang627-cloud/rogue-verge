@@ -3,7 +3,7 @@ import { TRANSLATIONS } from '../../data/constants';
 import { ScrambleText } from '../ui/ScrambleText';
 import { GlitchGeometryBlock } from '../ui/GlitchGeometryBlock';
 
-export const Home = ({ isAwakened, toggleAwaken, setCurrentPage, lang }) => {
+export const Home = ({ isAwakened, toggleAwaken, lang }) => {
     const t = TRANSLATIONS[lang];
     const locRef = useRef(null);
     const lastUpdateRef = useRef(0);
