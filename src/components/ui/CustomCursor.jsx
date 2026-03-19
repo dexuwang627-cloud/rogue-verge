@@ -14,16 +14,15 @@ export const CustomCursor = ({ isAwakened }) => {
         const trail2Pos = { x: 0, y: 0 };
 
         const handleMouseMove = (e) => {
-            const { clientX, clientY } = e;
-            mousePos.x = clientX;
-            mousePos.y = clientY;
-
-            if (cursorMainRef.current) {
-                cursorMainRef.current.style.transform = `translate3d(${clientX - 16}px, ${clientY - 16}px, 0) rotate(45deg)`;
-            }
+            mousePos.x = e.clientX;
+            mousePos.y = e.clientY;
         };
 
         const renderLoop = () => {
+            if (cursorMainRef.current) {
+                cursorMainRef.current.style.transform = `translate3d(${mousePos.x - 16}px, ${mousePos.y - 16}px, 0) rotate(45deg)`;
+            }
+
             trail1Pos.x += (mousePos.x - trail1Pos.x) * 0.2;
             trail1Pos.y += (mousePos.y - trail1Pos.y) * 0.2;
 
@@ -37,15 +36,16 @@ export const CustomCursor = ({ isAwakened }) => {
                 cursorTrail2Ref.current.style.transform = `translate3d(${trail2Pos.x - 8}px, ${trail2Pos.y - 8}px, 0) rotate(45deg)`;
             }
 
-            requestAnimationFrame(renderLoop);
+            rafId = requestAnimationFrame(renderLoop);
         };
 
-        window.addEventListener('mousemove', handleMouseMove);
-        const animationId = requestAnimationFrame(renderLoop);
+        let rafId;
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        rafId = requestAnimationFrame(renderLoop);
 
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
-            cancelAnimationFrame(animationId);
+            cancelAnimationFrame(rafId);
         };
     }, []);
 
