@@ -1,6 +1,6 @@
 import { useRef, useCallback } from 'react';
 
-const MAX_TILT = 10; // degrees
+const MAX_TILT = 5; // degrees
 
 export const useTilt = () => {
   const ref = useRef(null);

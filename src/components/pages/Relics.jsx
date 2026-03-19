@@ -19,11 +19,6 @@ const RelicCard = ({ item, lang, onClick }) => {
                 <div className="absolute inset-0 w-full h-full">
                     <img src={item.src} alt={item.code} className="w-full h-full object-cover opacity-60 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110" />
                 </div>
-                {/* Glitch overlay — inherits background from inline style */}
-                <div
-                    className="relic-glitch-overlay"
-                    style={{ backgroundImage: `url(${item.src})` }}
-                />
                 <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors duration-500"></div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
                     <span className="font-serif text-xs text-red-500 tracking-widest animate-pulse">[{item.code}]</span>

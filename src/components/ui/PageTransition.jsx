@@ -23,9 +23,9 @@ export const PageTransition = ({ isActive, phase, onPhaseComplete }) => {
       >
         {isEnter && (
           <div
-            className="absolute bottom-0 left-0 w-full h-[2px] bg-white"
+            className="absolute bottom-0 left-0 w-full h-[2px] bg-red-500"
             style={{
-              boxShadow: '0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(255,255,255,0.2)',
+              boxShadow: '0 0 15px rgba(239,68,68,0.5), 0 0 30px rgba(239,68,68,0.2)',
             }}
           />
         )}
