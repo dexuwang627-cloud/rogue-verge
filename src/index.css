@@ -245,6 +245,20 @@ body {
 }
 
 /* ═══════════════════════════════════════════
+   Heartbeat flash — glitch overlay keyframe
+═══════════════════════════════════════════ */
+@keyframes heartbeatFlash {
+  0% { opacity: 1; background: rgba(240,82,82,0.15); }
+  33% { opacity: 0.8; background: rgba(240,82,82,0.08); clip-path: inset(30% 0 50% 0); }
+  66% { opacity: 0.5; background: rgba(240,82,82,0.04); clip-path: inset(60% 0 20% 0); }
+  100% { opacity: 0; }
+}
+
+.heartbeat-flash-active {
+  animation: heartbeatFlash 0.15s steps(3) forwards;
+}
+
+/* ═══════════════════════════════════════════
    Detail page — fade enter
 ═══════════════════════════════════════════ */
 .fade-enter {
