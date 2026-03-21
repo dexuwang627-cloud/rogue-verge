@@ -1,20 +1,14 @@
 import React from 'react';
 import { TRANSLATIONS, RELICS_DATA } from '../../data/constants';
-import { useTilt } from '../../hooks/useTilt';
 
 const RelicCard = ({ item, lang, onClick }) => {
-    const { ref, onMouseMove, onMouseLeave } = useTilt();
     const displayNote = (item.note && typeof item.note === 'object') ? item.note[lang] : item.note;
 
     return (
         <div className="perspective-1000">
             <div
-                ref={ref}
                 onClick={() => onClick(item)}
-                onMouseMove={onMouseMove}
-                onMouseLeave={onMouseLeave}
                 className="group relative aspect-square border border-white/10 bg-[#050505] overflow-hidden cursor-pointer"
-                style={{ transformStyle: 'preserve-3d' }}
             >
                 <div className="absolute inset-0 w-full h-full">
                     <img src={item.src} alt={item.code} loading="lazy" className="w-full h-full object-cover opacity-60 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110" />
