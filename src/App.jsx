@@ -14,6 +14,7 @@ import { RelicDetail } from './components/pages/RelicDetail';
 import { Me } from './components/pages/Me';
 import { Codex } from './components/pages/Codex';
 import { PageTransition } from './components/ui/PageTransition';
+import { PageTitle } from './components/PageTitle';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -195,6 +196,8 @@ export default function App() {
           </div>
         </nav>
 
+        <PageTitle currentPage={currentPage} isAwakened={isAwakened} lang={language} />
+
         {/* Main Content */}
         {currentPage === 'home' && (
           <Home
@@ -225,7 +228,7 @@ export default function App() {
 
         {/* Pages */}
 
-        {currentPage === 'codex' && <Codex lang={language} />}
+        {currentPage === 'codex' && <Codex lang={language} isAwakened={isAwakened} />}
         {currentPage === 'relics' && <Relics onItemClick={handleRelicClick} lang={language} isAwakened={isAwakened} />}
         {currentPage === 'relic_detail' && <RelicDetail item={selectedRelic} onBack={() => navigateTo('relics', { lightweight: true })} lang={language} />}
         {currentPage === 'me' && <Me lang={language} />}
