@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react';
 
 // ---------------------------------------------------------------------------
 // Inline 2D Simplex Noise (no npm package)
-// Adapted from Stefan Gustavson's implementation
 // ---------------------------------------------------------------------------
 const SIMPLEX_GRAD3 = [
   [1, 1], [-1, 1], [1, -1], [-1, -1],
@@ -23,18 +22,16 @@ function buildPerm() {
 
 function createSimplex() {
   const perm = buildPerm();
+  const F2 = 0.5 * (Math.sqrt(3) - 1);
+  const G2 = (3 - Math.sqrt(3)) / 6;
 
   function noise2D(xin, yin) {
-    const F2 = 0.5 * (Math.sqrt(3) - 1);
-    const G2 = (3 - Math.sqrt(3)) / 6;
     const s = (xin + yin) * F2;
     const i = Math.floor(xin + s);
     const j = Math.floor(yin + s);
     const t = (i + j) * G2;
-    const X0 = i - t;
-    const Y0 = j - t;
-    const x0 = xin - X0;
-    const y0 = yin - Y0;
+    const x0 = xin - (i - t);
+    const y0 = yin - (j - t);
     const i1 = x0 > y0 ? 1 : 0;
     const j1 = x0 > y0 ? 0 : 1;
     const x1 = x0 - i1 + G2;
@@ -49,32 +46,25 @@ function createSimplex() {
 
     let n0 = 0;
     let t0 = 0.5 - x0 * x0 - y0 * y0;
-    if (t0 >= 0) {
-      t0 *= t0;
-      n0 = t0 * t0 * (SIMPLEX_GRAD3[gi0][0] * x0 + SIMPLEX_GRAD3[gi0][1] * y0);
-    }
+    if (t0 >= 0) { t0 *= t0; n0 = t0 * t0 * (SIMPLEX_GRAD3[gi0][0] * x0 + SIMPLEX_GRAD3[gi0][1] * y0); }
     let n1 = 0;
     let t1 = 0.5 - x1 * x1 - y1 * y1;
-    if (t1 >= 0) {
-      t1 *= t1;
-      n1 = t1 * t1 * (SIMPLEX_GRAD3[gi1][0] * x1 + SIMPLEX_GRAD3[gi1][1] * y1);
-    }
+    if (t1 >= 0) { t1 *= t1; n1 = t1 * t1 * (SIMPLEX_GRAD3[gi1][0] * x1 + SIMPLEX_GRAD3[gi1][1] * y1); }
     let n2 = 0;
     let t2 = 0.5 - x2 * x2 - y2 * y2;
-    if (t2 >= 0) {
-      t2 *= t2;
-      n2 = t2 * t2 * (SIMPLEX_GRAD3[gi2][0] * x2 + SIMPLEX_GRAD3[gi2][1] * y2);
-    }
-    return 70 * (n0 + n1 + n2); // range approximately [-1, 1]
+    if (t2 >= 0) { t2 *= t2; n2 = t2 * t2 * (SIMPLEX_GRAD3[gi2][0] * x2 + SIMPLEX_GRAD3[gi2][1] * y2); }
+    return 70 * (n0 + n1 + n2);
   }
 
   return noise2D;
 }
 
 // ---------------------------------------------------------------------------
-// Organism class
+// Organism class — reduced to 3 organisms with 2-3 sub-blobs each
 // ---------------------------------------------------------------------------
-const ORGANISM_COUNT = 6;
+const ORGANISM_COUNT = 3;
+const RESOLUTION_SCALE = 0.33; // render at 1/3 resolution, CSS scales up
+const SAMPLE_STEP = 2; // sample every 2nd pixel at reduced resolution
 
 class Organism {
   constructor(cx, cy, size, noise2D) {
@@ -90,7 +80,7 @@ class Organism {
     this.breathScale = 1;
     this.noise2D = noise2D;
 
-    const count = 3 + Math.floor(Math.random() * 3);
+    const count = 2 + Math.floor(Math.random() * 2); // 2-3 sub-blobs
     this.subs = [];
     for (let i = 0; i < count; i++) {
       const angle = (i / count) * Math.PI * 2 + Math.random() * 0.5;
@@ -107,12 +97,9 @@ class Organism {
 
   update(t, state, canvasW, canvasH) {
     const spd = state.speed * 1.2;
-
-    // Drift
     this.cx += this.vx * spd;
     this.cy += this.vy * spd;
 
-    // Spread: attract/repel from center based on spread value
     const spreadTarget = state.spread;
     const halfW = canvasW * 0.5;
     const halfH = canvasH * 0.5;
@@ -121,21 +108,18 @@ class Organism {
     this.cx += (targetX - this.cx) * 0.001 * spd;
     this.cy += (targetY - this.cy) * 0.001 * spd;
 
-    // Bounce off edges
     const margin = this.size * 0.5;
     if (this.cx < margin) { this.cx = margin; this.vx = Math.abs(this.vx); }
     if (this.cx > canvasW - margin) { this.cx = canvasW - margin; this.vx = -Math.abs(this.vx); }
     if (this.cy < margin) { this.cy = margin; this.vy = Math.abs(this.vy); }
     if (this.cy > canvasH - margin) { this.cy = canvasH - margin; this.vy = -Math.abs(this.vy); }
 
-    // Convulse: violent displacement
     if (state.convulse > 0.1) {
       const shake = state.convulse * this.size * 0.4;
       this.cx += (Math.random() - 0.5) * shake;
       this.cy += (Math.random() - 0.5) * shake;
     }
 
-    // Breathing
     this.breathScale = state.scale * (1 + Math.sin(t * 0.48 * spd + this.phase) * state.breathAmp);
   }
 
@@ -146,7 +130,6 @@ class Organism {
     const noise2D = this.noise2D;
 
     for (const sub of this.subs) {
-      // Sub-blob center with squirm (sine-driven independent movement)
       const squirmX = Math.sin(t * 0.7 * spd + sub.phase) * this.size * 0.12;
       const squirmY = Math.cos(t * 0.5 * spd + sub.phase * 1.3) * this.size * 0.12;
 
@@ -154,18 +137,15 @@ class Organism {
       const subCy = this.cy + (sub.offsetY + squirmY) * this.breathScale;
       const subR = sub.r * this.breathScale;
 
-      // Vector from sub-blob center to pixel
       const dx = px - subCx;
       const dy = py - subCy;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      // Noise distortion of the distance — amoeba-like edge deformation
       const noiseX = (px + this.noiseOffset + t * 0.12 * spd) * 0.008 * sub.noiseScale;
       const noiseY = (py + this.noiseOffset + t * 0.09 * spd) * 0.008 * sub.noiseScale;
-      const nVal = noise2D(noiseX, noiseY); // [-1, 1]
+      const nVal = noise2D(noiseX, noiseY);
       const distortedDist = Math.max(0.001, dist - nVal * subR * nStr * 0.6);
 
-      // Metaball field: r^2 / dist^2 (classic)
       if (distortedDist < subR * 2.5) {
         const ratio = subR / distortedDist;
         sum += ratio * ratio;
@@ -177,7 +157,7 @@ class Organism {
 }
 
 // ---------------------------------------------------------------------------
-// AcidWarp component
+// AcidWarp component — aggressively optimized
 // ---------------------------------------------------------------------------
 export function AcidWarp({ state }) {
   const canvasRef = useRef(null);
@@ -189,7 +169,6 @@ export function AcidWarp({ state }) {
   });
 
   useEffect(() => {
-    // Touch device guard: skip rendering entirely on coarse-pointer devices
     if (
       typeof window !== 'undefined' &&
       window.matchMedia &&
@@ -202,89 +181,75 @@ export function AcidWarp({ state }) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
-    // Shared noise function for all organisms
     const noise2D = createSimplex();
 
-    let canvasW = 0;
-    let canvasH = 0;
+    let renderW = 0; // internal canvas resolution (1/3 of viewport)
+    let renderH = 0;
+    let viewW = 0; // actual viewport size
+    let viewH = 0;
     let organisms = [];
     let isMounted = true;
 
-    // ------------------------------------------------------------------
-    // Resize handler
-    // ------------------------------------------------------------------
     function resize() {
-      canvasW = window.innerWidth;
-      canvasH = window.innerHeight;
-      canvas.width = canvasW;
-      canvas.height = canvasH;
+      viewW = window.innerWidth;
+      viewH = window.innerHeight;
+      renderW = Math.ceil(viewW * RESOLUTION_SCALE);
+      renderH = Math.ceil(viewH * RESOLUTION_SCALE);
+      canvas.width = renderW;
+      canvas.height = renderH;
       spawnOrganisms();
     }
 
-    // ------------------------------------------------------------------
-    // Spawn organisms spread across the viewport
-    // ------------------------------------------------------------------
     function spawnOrganisms() {
       organisms = [];
-      const baseSize = Math.min(canvasW, canvasH) * 0.18;
+      const baseSize = Math.min(renderW, renderH) * 0.22;
       for (let i = 0; i < ORGANISM_COUNT; i++) {
-        const cx = canvasW * (0.15 + Math.random() * 0.7);
-        const cy = canvasH * (0.15 + Math.random() * 0.7);
+        const cx = renderW * (0.15 + Math.random() * 0.7);
+        const cy = renderH * (0.15 + Math.random() * 0.7);
         const size = baseSize * (0.7 + Math.random() * 0.6);
         organisms.push(new Organism(cx, cy, size, noise2D));
       }
     }
 
-    // ------------------------------------------------------------------
-    // RAF render loop
-    // ------------------------------------------------------------------
     let startTime = null;
 
     function render(timestamp) {
       if (!isMounted) return;
       if (startTime === null) startTime = timestamp;
-      const t = (timestamp - startTime) * 0.001; // seconds
+      const t = (timestamp - startTime) * 0.001;
 
       const s = stateRef.current;
-      const intensity = s.intensity ?? 0.3;
+      const intensity = (s.intensity ?? 0.3) * 0.9; // 10% lower transparency
       const colorR = s.colorR ?? 40;
 
-      // Clear
-      ctx.clearRect(0, 0, canvasW, canvasH);
+      ctx.clearRect(0, 0, renderW, renderH);
 
-      // Update organisms
       for (const org of organisms) {
-        org.update(t, s, canvasW, canvasH);
+        org.update(t, s, renderW, renderH);
       }
 
-      // Pixel-sampling: every 3rd pixel (3x3 blocks)
-      const step = 3;
-      const threshold = 1.0; // metaball iso-surface threshold
-
-      // Build ImageData for fast pixel writes
-      const imageData = ctx.createImageData(canvasW, canvasH);
+      const step = SAMPLE_STEP;
+      const threshold = 1.0;
+      const imageData = ctx.createImageData(renderW, renderH);
       const data = imageData.data;
 
-      for (let py = 0; py < canvasH; py += step) {
-        for (let px = 0; px < canvasW; px += step) {
-          // Sum field contributions from all organisms
+      for (let py = 0; py < renderH; py += step) {
+        for (let px = 0; px < renderW; px += step) {
           let totalField = 0;
           for (const org of organisms) {
             totalField += org.field(px, py, t, s);
           }
 
           if (totalField > threshold) {
-            // Soft alpha falloff past threshold
             const excess = Math.min((totalField - threshold) / threshold, 1);
             const alpha = Math.round(excess * intensity * 255);
             const r = Math.min(255, colorR + Math.round(excess * 80));
             const g = Math.round(excess * 6);
             const b = Math.round(excess * 8);
 
-            // Fill 3x3 block
-            for (let dy = 0; dy < step && py + dy < canvasH; dy++) {
-              for (let dx = 0; dx < step && px + dx < canvasW; dx++) {
-                const idx = ((py + dy) * canvasW + (px + dx)) * 4;
+            for (let dy = 0; dy < step && py + dy < renderH; dy++) {
+              for (let dx = 0; dx < step && px + dx < renderW; dx++) {
+                const idx = ((py + dy) * renderW + (px + dx)) * 4;
                 data[idx] = r;
                 data[idx + 1] = g;
                 data[idx + 2] = b;
@@ -296,7 +261,6 @@ export function AcidWarp({ state }) {
       }
 
       ctx.putImageData(imageData, 0, 0);
-
       rafRef.current = requestAnimationFrame(render);
     }
 
@@ -312,9 +276,8 @@ export function AcidWarp({ state }) {
         rafRef.current = null;
       }
     };
-  }, []); // intentionally empty — reads state via ref every frame
+  }, []);
 
-  // Touch device: render nothing
   if (
     typeof window !== 'undefined' &&
     window.matchMedia &&
@@ -335,6 +298,7 @@ export function AcidWarp({ state }) {
         zIndex: 0,
         pointerEvents: 'none',
         display: 'block',
+        imageRendering: 'auto', // smooth upscale from 1/3 res
       }}
     />
   );
