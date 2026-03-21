@@ -52,18 +52,17 @@ const getFragmentStyle = (type) => {
 // --------------------------------------------------------------------------
 
 export const DepthLayers = ({ isAwakened = false }) => {
-    // Mobile guard — render nothing on touch devices
-    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
-        return null;
-    }
-
     const layer1Ref = useRef(null);
     const layer2Ref = useRef(null);
     const layer3Ref = useRef(null);
     const rafRef    = useRef(null);
     const scrollRef = useRef(0);
 
+    // Mobile guard — render nothing on touch devices
+    const isTouchDevice = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+
     useEffect(() => {
+        if (isTouchDevice) return;
         const onScroll = () => {
             if (rafRef.current) return; // already scheduled — skip
 
@@ -115,10 +114,12 @@ export const DepthLayers = ({ isAwakened = false }) => {
                 rafRef.current = null;
             }
         };
-    }, []);
+    }, [isTouchDevice]);
 
     // Awakened mode adjusts CSS animation durations for code rain
     const speedMultiplier = isAwakened ? (1 / 1.3) : 1;
+
+    if (isTouchDevice) return null;
 
     return (
         <>

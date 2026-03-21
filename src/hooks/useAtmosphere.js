@@ -47,7 +47,10 @@ function applyAwakened(patch, isAwakened, { applyIntensity = true, applyColorR =
 // ---------------------------------------------------------------------------
 export function useAtmosphere({ isAwakened = false } = {}) {
   // acidState is a plain object mutated directly by GSAP — NOT React state
-  const acidState = useRef({ ...DORMANT }).current;
+  const acidStateRef = useRef(null);
+  if (acidStateRef.current === null) {
+    acidStateRef.current = { ...DORMANT };
+  }
 
   // Ref to pass to <HeartbeatFlash ref={flashRef} />
   const flashRef = useRef(null);
@@ -59,6 +62,7 @@ export function useAtmosphere({ isAwakened = false } = {}) {
   const triggerRefs = useRef([]);
 
   useEffect(() => {
+    const acidState = acidStateRef.current;
     const triggers = triggerRefs.current;
 
     // ------------------------------------------------------------------
@@ -331,5 +335,5 @@ export function useAtmosphere({ isAwakened = false } = {}) {
     };
   }, [isAwakened]); // re-run when awakened state changes
 
-  return { acidState, flashRef };
+  return { acidState: acidStateRef.current, flashRef };
 }

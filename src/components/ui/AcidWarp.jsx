@@ -184,8 +184,9 @@ export function AcidWarp({ state }) {
   const stateRef = useRef(state);
   const rafRef = useRef(null);
 
-  // Keep stateRef pointing at the latest state object
-  stateRef.current = state;
+  useEffect(() => {
+    stateRef.current = state;
+  });
 
   useEffect(() => {
     // Touch device guard: skip rendering entirely on coarse-pointer devices
