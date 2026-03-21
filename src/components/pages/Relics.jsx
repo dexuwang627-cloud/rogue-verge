@@ -1,41 +1,43 @@
-import React from 'react';
-import { TRANSLATIONS, RELICS_DATA } from '../../data/constants';
-import { useTilt } from '../../hooks/useTilt';
+import React, { useRef } from 'react';
+import { RELICS_DATA } from '../../data/constants';
+import { MagneticWrapper } from '../ui/MagneticWrapper';
+import { SpringCard } from '../ui/SpringCard';
+import { useCascadeReveal } from '../../hooks/useCascadeReveal';
 
-const RelicCard = ({ item, lang, onClick }) => {
-    const { ref, onMouseMove, onMouseLeave } = useTilt();
+const RelicCard = ({ item, lang, onClick, isAwakened }) => {
     const displayNote = (item.note && typeof item.note === 'object') ? item.note[lang] : item.note;
 
     return (
-        <div className="perspective-1000">
-            <div
-                ref={ref}
-                onClick={() => onClick(item)}
-                onMouseMove={onMouseMove}
-                onMouseLeave={onMouseLeave}
+        <MagneticWrapper isAwakened={isAwakened}>
+            <SpringCard
+                isAwakened={isAwakened}
                 className="group relative aspect-square border border-white/10 bg-[#050505] overflow-hidden cursor-pointer"
-                style={{ transformStyle: 'preserve-3d' }}
             >
-                <div className="absolute inset-0 w-full h-full">
-                    <img src={item.src} alt={item.code} loading="lazy" className="w-full h-full object-cover opacity-60 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110" />
+                <div onClick={() => onClick(item)} className="w-full h-full relative">
+                    <div className="absolute inset-0 w-full h-full">
+                        <img src={item.src} alt={item.code} loading="lazy" className="w-full h-full object-cover opacity-60 grayscale transition-all duration-700 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110" />
+                    </div>
+                    <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors duration-500"></div>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
+                        <span className="font-serif text-xs text-red-500 tracking-widest animate-pulse">[{item.code}]</span>
+                    </div>
+                    <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                        <p className="font-serif text-white text-lg">{item.code}</p>
+                        <p className="font-serif text-xs text-gray-400">{displayNote}</p>
+                    </div>
+                    <div className="absolute top-4 right-4 w-2 h-2 border-t border-r border-white/30 group-hover:border-white transition-colors"></div>
+                    <div className="absolute bottom-4 left-4 w-2 h-2 border-b border-l border-white/30 group-hover:border-white transition-colors"></div>
                 </div>
-                <div className="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors duration-500"></div>
-                <div className="absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
-                    <span className="font-serif text-xs text-red-500 tracking-widest animate-pulse">[{item.code}]</span>
-                </div>
-                <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black to-transparent transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                    <p className="font-serif text-white text-lg">{item.code}</p>
-                    <p className="font-serif text-xs text-gray-400">{displayNote}</p>
-                </div>
-                <div className="absolute top-4 right-4 w-2 h-2 border-t border-r border-white/30 group-hover:border-white transition-colors"></div>
-                <div className="absolute bottom-4 left-4 w-2 h-2 border-b border-l border-white/30 group-hover:border-white transition-colors"></div>
-            </div>
-        </div>
+            </SpringCard>
+        </MagneticWrapper>
     );
 };
 
-export const Relics = ({ onItemClick, lang }) => {
-    const t = TRANSLATIONS[lang];
+export const Relics = ({ onItemClick, lang, isAwakened }) => {
+    const gridRef = useRef(null);
+
+    useCascadeReveal(gridRef, { isAwakened, itemSelector: '.cascade-item' });
+
     return (
         <div className="pt-32 px-6 md:px-20 min-h-screen pb-20">
             <div className="flex items-end gap-4 mb-12 border-b border-white/10 pb-6">
@@ -43,9 +45,15 @@ export const Relics = ({ onItemClick, lang }) => {
                 <span className="font-serif text-xs text-gray-500 mb-2"> // RECOVERED DATA</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {RELICS_DATA.map((item) => (
-                    <RelicCard key={item.id} item={item} lang={lang} onClick={onItemClick} />
+                    <div key={item.id} className="cascade-item relative">
+                        <RelicCard item={item} lang={lang} onClick={onItemClick} isAwakened={isAwakened} />
+                        <div
+                            className="cascade-line absolute bottom-0 left-0 right-0 h-[2px] origin-left"
+                            style={{ backgroundColor: isAwakened ? '#f05252' : '#555' }}
+                        />
+                    </div>
                 ))}
             </div>
         </div>

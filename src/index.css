@@ -190,20 +190,6 @@ body {
   }
 }
 
-/* ═══════════════════════════════════════════
-   Codex page — scroll reveal animations
-═══════════════════════════════════════════ */
-.codex-fade-in {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.codex-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 /* ═══════════════════════════════════════════
    Relic card — glitch hover overlay
@@ -242,6 +228,20 @@ body {
   animation: glitchClip2 0.3s steps(4) 1;
   transform: translate(-2px, 0);
   filter: hue-rotate(30deg) saturate(2);
+}
+
+/* ═══════════════════════════════════════════
+   Heartbeat flash — glitch overlay keyframe
+═══════════════════════════════════════════ */
+@keyframes heartbeatFlash {
+  0% { opacity: 1; background: rgba(240,82,82,0.15); }
+  33% { opacity: 0.8; background: rgba(240,82,82,0.08); clip-path: inset(30% 0 50% 0); }
+  66% { opacity: 0.5; background: rgba(240,82,82,0.04); clip-path: inset(60% 0 20% 0); }
+  100% { opacity: 0; }
+}
+
+.heartbeat-flash-active {
+  animation: heartbeatFlash 0.15s steps(3) forwards;
 }
 
 /* ═══════════════════════════════════════════
