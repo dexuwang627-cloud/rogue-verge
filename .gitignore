@@ -39,3 +39,4 @@ __pycache__/
 .pids/
 playwright-report/
 test-results/
+.superpowers/
