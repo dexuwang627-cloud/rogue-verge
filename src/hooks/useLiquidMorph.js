@@ -75,5 +75,5 @@ export function useLiquidMorph(titleRef, currentPage, { isAwakened = false, titl
       },
       `-=${isAwakened ? 0.1 : 0.2}`
     );
-  }, [titleRef, currentPage, isAwakened]);
+  }, [titleRef, currentPage, isAwakened, title]);
 }

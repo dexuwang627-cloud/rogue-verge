@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'motion/react'; // eslint-disable-line no-unused-vars
 
 const DORMANT_CONFIG = {
   y: -4,

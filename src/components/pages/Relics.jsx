@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { TRANSLATIONS, RELICS_DATA } from '../../data/constants';
+import { RELICS_DATA } from '../../data/constants';
 import { MagneticWrapper } from '../ui/MagneticWrapper';
 import { SpringCard } from '../ui/SpringCard';
 import { useCascadeReveal } from '../../hooks/useCascadeReveal';
@@ -34,7 +34,6 @@ const RelicCard = ({ item, lang, onClick, isAwakened }) => {
 };
 
 export const Relics = ({ onItemClick, lang, isAwakened }) => {
-    const t = TRANSLATIONS[lang];
     const gridRef = useRef(null);
 
     useCascadeReveal(gridRef, { isAwakened, itemSelector: '.cascade-item' });
