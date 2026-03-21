@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { TRANSLATIONS, RELICS_DATA } from '../../data/constants';
 import { MagneticWrapper } from '../ui/MagneticWrapper';
 import { SpringCard } from '../ui/SpringCard';
+import { useCascadeReveal } from '../../hooks/useCascadeReveal';
 
 const RelicCard = ({ item, lang, onClick, isAwakened }) => {
     const displayNote = (item.note && typeof item.note === 'object') ? item.note[lang] : item.note;
@@ -34,6 +35,10 @@ const RelicCard = ({ item, lang, onClick, isAwakened }) => {
 
 export const Relics = ({ onItemClick, lang, isAwakened }) => {
     const t = TRANSLATIONS[lang];
+    const gridRef = useRef(null);
+
+    useCascadeReveal(gridRef, { isAwakened, itemSelector: '.cascade-item' });
+
     return (
         <div className="pt-32 px-6 md:px-20 min-h-screen pb-20">
             <div className="flex items-end gap-4 mb-12 border-b border-white/10 pb-6">
@@ -41,9 +46,15 @@ export const Relics = ({ onItemClick, lang, isAwakened }) => {
                 <span className="font-serif text-xs text-gray-500 mb-2"> // RECOVERED DATA</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {RELICS_DATA.map((item) => (
-                    <RelicCard key={item.id} item={item} lang={lang} onClick={onItemClick} isAwakened={isAwakened} />
+                    <div key={item.id} className="cascade-item relative">
+                        <RelicCard item={item} lang={lang} onClick={onItemClick} isAwakened={isAwakened} />
+                        <div
+                            className="cascade-line absolute bottom-0 left-0 right-0 h-[2px] origin-left"
+                            style={{ backgroundColor: isAwakened ? '#f05252' : '#555' }}
+                        />
+                    </div>
                 ))}
             </div>
         </div>
