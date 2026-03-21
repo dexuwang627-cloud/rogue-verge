@@ -226,7 +226,7 @@ export default function App() {
         {/* Pages */}
 
         {currentPage === 'codex' && <Codex lang={language} />}
-        {currentPage === 'relics' && <Relics onItemClick={handleRelicClick} lang={language} />}
+        {currentPage === 'relics' && <Relics onItemClick={handleRelicClick} lang={language} isAwakened={isAwakened} />}
         {currentPage === 'relic_detail' && <RelicDetail item={selectedRelic} onBack={() => navigateTo('relics', { lightweight: true })} lang={language} />}
         {currentPage === 'me' && <Me lang={language} />}
       </div>
