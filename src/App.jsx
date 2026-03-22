@@ -15,6 +15,7 @@ import { Me } from './components/pages/Me';
 import { Codex } from './components/pages/Codex';
 import { PageTransition } from './components/ui/PageTransition';
 import { PageTitle } from './components/PageTitle';
+import { ShaderBackground } from './components/ui/ShaderBackground';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -132,12 +133,21 @@ export default function App() {
       <div className={`min-h-screen bg-[#020202] text-[#e0e0e0] overflow-x-hidden font-sans transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'} ${isAwakened ? 'theme-awakened' : 'theme-dormant'}`}>
 
         {/* Global Background */}
+        <ShaderBackground isAwakened={isAwakened} />
         <div className="fixed inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden z-0">
           <img src="/image/background_logo.svg" alt="ROGUE VERGE Background" className="w-full h-full object-cover opacity-5 animate-pulse-slow" style={{ filter: 'grayscale(100%) brightness(30%)' }} />
         </div>
-        <div className="fixed inset-0 pointer-events-none z-50 mix-blend-overlay opacity-10" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
         <div className={`fixed inset-0 pointer-events-none z-0 transition-opacity duration-1000 ease-in-out ${isAwakened && currentPage === 'home' ? 'opacity-30' : 'opacity-0'}`} style={{ backgroundImage: `linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px)`, backgroundSize: '40px 40px', maskImage: 'radial-gradient(circle at center, black 40%, transparent 80%)', WebkitMaskImage: 'radial-gradient(circle at center, black 40%, transparent 80%)' }}></div>
         <div className={`fixed top-0 left-1/2 -translate-x-1/2 pointer-events-none z-20 transition-all duration-1000 ease-out ${isAwakened && currentPage === 'home' ? 'opacity-100 h-[120vh] w-[60vw]' : 'opacity-0 h-0 w-0'}`} style={{ background: 'conic-gradient(from 180deg at 50% 0%, transparent 0deg, rgba(255, 255, 255, 0.15) 10deg, rgba(255, 255, 255, 0.4) 20deg, rgba(255, 255, 255, 0.15) 30deg, transparent 40deg)', filter: 'blur(40px)', transformOrigin: 'top center' }}></div>
+
+        {/* Global Awakened Vignette — subtle red edge glow across all pages */}
+        <div
+          className={`fixed inset-0 pointer-events-none z-10 transition-opacity duration-[2000ms] ease-in-out ${isAwakened ? 'opacity-100' : 'opacity-0'}`}
+          style={{
+            background: 'radial-gradient(ellipse at center, transparent 40%, rgba(120, 20, 20, 0.08) 70%, rgba(80, 10, 10, 0.15) 100%)',
+            animation: isAwakened ? 'awakenedPulse 4s ease-in-out infinite' : 'none',
+          }}
+        ></div>
 
         {/* Custom Cursor */}
         <CustomCursor isAwakened={isAwakened} />

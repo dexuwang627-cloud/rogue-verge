@@ -265,3 +265,9 @@ body {
   from { transform: translateY(-100%); }
   to   { transform: translateY(100vh); }
 }
+
+/* Global awakened vignette breathing */
+@keyframes awakenedPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
