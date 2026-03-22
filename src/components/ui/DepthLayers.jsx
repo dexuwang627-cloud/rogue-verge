@@ -135,13 +135,6 @@ export const DepthLayers = ({ isAwakened = false }) => {
                     overflow: 'hidden',
                 }}
             >
-                <style>{`
-                    @keyframes codefall {
-                        from { transform: translateY(-100%); }
-                        to   { transform: translateY(100vh); }
-                    }
-                `}</style>
-
                 {CODE_COLUMNS.map((col, i) => (
                     <div
                         key={i}

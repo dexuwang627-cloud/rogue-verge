@@ -66,7 +66,7 @@ export function useAtmosphere({ isAwakened = false } = {}) {
     const triggers = triggerRefs.current;
 
     // ------------------------------------------------------------------
-    // Helper: create a ScrollTrigger and store its reference
+    // Helpers
     // ------------------------------------------------------------------
     function makeTrigger(vars) {
       const st = ScrollTrigger.create(vars);
@@ -74,29 +74,26 @@ export function useAtmosphere({ isAwakened = false } = {}) {
       return st;
     }
 
+    function tweenTo(target, duration, ease = 'power2.out') {
+      return () => gsap.to(acidState, {
+        ...applyAwakened(target, isAwakened),
+        duration,
+        ease,
+        overwrite: 'auto',
+      });
+    }
+
     // ------------------------------------------------------------------
     // #codex-opening — dormant baseline
     // ------------------------------------------------------------------
+    const toDormant = tweenTo(DORMANT, 1.2);
+
     makeTrigger({
       trigger: '#codex-opening',
       start: 'top top',
       end: 'bottom center',
-      onEnter: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(DORMANT, isAwakened),
-          duration: 1.2,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-      },
-      onEnterBack: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(DORMANT, isAwakened),
-          duration: 1.2,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-      },
+      onEnter: toDormant,
+      onEnterBack: toDormant,
     });
 
     // ------------------------------------------------------------------
@@ -112,34 +109,15 @@ export function useAtmosphere({ isAwakened = false } = {}) {
       scale: 1.0,
     };
 
+    const toGenesis = tweenTo(GENESIS_TARGET, 1.5, 'power2.inOut');
+
     makeTrigger({
       trigger: '#codex-genesis',
       start: 'top center',
       end: 'bottom center',
-      onEnter: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(GENESIS_TARGET, isAwakened),
-          duration: 1.5,
-          ease: 'power2.inOut',
-          overwrite: 'auto',
-        });
-      },
-      onEnterBack: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(GENESIS_TARGET, isAwakened),
-          duration: 1.5,
-          ease: 'power2.inOut',
-          overwrite: 'auto',
-        });
-      },
-      onLeaveBack: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(DORMANT, isAwakened),
-          duration: 1.2,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-      },
+      onEnter: toGenesis,
+      onEnterBack: toGenesis,
+      onLeaveBack: toDormant,
     });
 
     // ------------------------------------------------------------------
@@ -211,26 +189,14 @@ export function useAtmosphere({ isAwakened = false } = {}) {
       scale: 1.05,
     };
 
+    const toManifesto = tweenTo(MANIFESTO_TARGET, 1.5, 'power2.inOut');
+
     makeTrigger({
       trigger: '#codex-manifesto',
       start: 'top center',
       end: 'bottom center',
-      onEnter: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(MANIFESTO_TARGET, isAwakened),
-          duration: 1.5,
-          ease: 'power2.inOut',
-          overwrite: 'auto',
-        });
-      },
-      onEnterBack: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(MANIFESTO_TARGET, isAwakened),
-          duration: 1.5,
-          ease: 'power2.inOut',
-          overwrite: 'auto',
-        });
-      },
+      onEnter: toManifesto,
+      onEnterBack: toManifesto,
     });
 
     // ------------------------------------------------------------------
@@ -304,26 +270,14 @@ export function useAtmosphere({ isAwakened = false } = {}) {
       scale: 0.6,
     };
 
+    const toFinal = tweenTo(FINAL_TARGET, 3, 'power1.inOut');
+
     makeTrigger({
       trigger: '#codex-final',
       start: 'top center',
       end: 'bottom bottom',
-      onEnter: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(FINAL_TARGET, isAwakened),
-          duration: 3,
-          ease: 'power1.inOut',
-          overwrite: 'auto',
-        });
-      },
-      onEnterBack: () => {
-        gsap.to(acidState, {
-          ...applyAwakened(FINAL_TARGET, isAwakened),
-          duration: 3,
-          ease: 'power1.inOut',
-          overwrite: 'auto',
-        });
-      },
+      onEnter: toFinal,
+      onEnterBack: toFinal,
     });
 
     // ------------------------------------------------------------------

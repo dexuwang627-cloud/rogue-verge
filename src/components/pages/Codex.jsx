@@ -59,11 +59,7 @@ const SigilGlitch = () => {
         <div
             data-reveal
             className="relative flex items-center justify-center py-20 overflow-hidden"
-            style={{
-                opacity: 0,
-                transform: 'translateY(30px)',
-                transition: 'opacity 0.8s ease, transform 0.8s ease',
-            }}
+            style={REVEAL_STYLE}
         >
             <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px] group">
                 <img
@@ -144,6 +140,12 @@ const LABEL_STYLE = {
     fontFamily: "'Space Mono', monospace",
     fontSize: '0.7rem',
     letterSpacing: '0.4em',
+};
+
+const REVEAL_STYLE = {
+    opacity: 0,
+    transform: 'translateY(30px)',
+    transition: 'opacity 0.8s ease, transform 0.8s ease',
 };
 
 // ---------------------------------------------------------------------------
@@ -280,9 +282,7 @@ export const Codex = ({ lang, isAwakened }) => {
                         data-reveal
                         style={{
                             ...BODY_TEXT_STYLE,
-                            opacity: 0,
-                            transform: 'translateY(30px)',
-                            transition: 'opacity 0.8s ease, transform 0.8s ease',
+                            ...REVEAL_STYLE,
                             marginBottom: '2rem',
                         }}
                     >
@@ -294,9 +294,7 @@ export const Codex = ({ lang, isAwakened }) => {
                         data-reveal
                         style={{
                             ...BODY_TEXT_STYLE,
-                            opacity: 0,
-                            transform: 'translateY(30px)',
-                            transition: 'opacity 0.8s ease, transform 0.8s ease',
+                            ...REVEAL_STYLE,
                             marginBottom: '2rem',
                         }}
                     >
@@ -308,9 +306,7 @@ export const Codex = ({ lang, isAwakened }) => {
                         data-reveal
                         style={{
                             ...BODY_TEXT_STYLE,
-                            opacity: 0,
-                            transform: 'translateY(30px)',
-                            transition: 'opacity 0.8s ease, transform 0.8s ease',
+                            ...REVEAL_STYLE,
                             marginBottom: '2rem',
                         }}
                     >
@@ -354,9 +350,7 @@ export const Codex = ({ lang, isAwakened }) => {
                         data-reveal
                         style={{
                             ...BODY_TEXT_STYLE,
-                            opacity: 0,
-                            transform: 'translateY(30px)',
-                            transition: 'opacity 0.8s ease, transform 0.8s ease',
+                            ...REVEAL_STYLE,
                             marginBottom: '2rem',
                         }}
                     >
@@ -370,9 +364,7 @@ export const Codex = ({ lang, isAwakened }) => {
                         data-reveal
                         style={{
                             ...BODY_TEXT_STYLE,
-                            opacity: 0,
-                            transform: 'translateY(30px)',
-                            transition: 'opacity 0.8s ease, transform 0.8s ease',
+                            ...REVEAL_STYLE,
                             marginBottom: '2rem',
                         }}
                     >

@@ -4,12 +4,12 @@ const HeartbeatFlash = forwardRef(function HeartbeatFlash({ isAwakened = false }
   const glitchRef = useRef(null);
   const scanlineRef = useRef(null);
   const redGlowRef = useRef(null);
-  const intervalRef = useRef(null);
+  const rafRef = useRef(null);
   const decayTimerRef = useRef(null);
 
   useEffect(() => {
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
       if (decayTimerRef.current) clearTimeout(decayTimerRef.current);
     };
   }, []);
@@ -25,10 +25,10 @@ const HeartbeatFlash = forwardRef(function HeartbeatFlash({ isAwakened = false }
         glitch.classList.add('heartbeat-flash-active');
       }
 
-      // 2. Scanline sweep from top to bottom
+      // 2. Scanline sweep from top to bottom (RAF-driven)
       const scanline = scanlineRef.current;
       if (scanline) {
-        if (intervalRef.current) clearInterval(intervalRef.current);
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
 
         const boxShadow = isAwakened
           ? '0 0 40px rgba(240,82,82,0.7)'
@@ -38,18 +38,19 @@ const HeartbeatFlash = forwardRef(function HeartbeatFlash({ isAwakened = false }
         scanline.style.opacity = '0.6';
 
         const targetHeight = window.innerHeight;
-        intervalRef.current = setInterval(() => {
-          const currentTop = parseInt(scanline.style.top, 10) || 0;
-          const nextTop = currentTop + 8;
-          if (nextTop >= targetHeight) {
+        let top = 0;
+        function step() {
+          top += 8;
+          if (top >= targetHeight) {
             scanline.style.top = `${targetHeight}px`;
             scanline.style.opacity = '0';
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
-          } else {
-            scanline.style.top = `${nextTop}px`;
+            rafRef.current = null;
+            return;
           }
-        }, 16);
+          scanline.style.top = `${top}px`;
+          rafRef.current = requestAnimationFrame(step);
+        }
+        rafRef.current = requestAnimationFrame(step);
       }
 
       // 3. Red glow — flash to 1, then decay
