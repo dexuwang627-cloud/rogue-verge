@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react'; // eslint-disable-line no-unused-vars
+import { isTouchDevice } from '../../utils/device';
 
 const DORMANT_CONFIG = {
   y: -4,
@@ -15,11 +16,6 @@ const AWAKENED_CONFIG = {
 
 export function SpringCard({ isAwakened = false, children, className = '' }) {
   const [isHovered, setIsHovered] = useState(false);
-
-  const isTouchDevice =
-    typeof window !== 'undefined' &&
-    window.matchMedia &&
-    window.matchMedia('(pointer: coarse)').matches;
 
   const config = isAwakened ? AWAKENED_CONFIG : DORMANT_CONFIG;
 

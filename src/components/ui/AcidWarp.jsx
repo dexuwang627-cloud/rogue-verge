@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { isTouchDevice } from '../../utils/device';
 
 // ---------------------------------------------------------------------------
 // Inline 2D Simplex Noise (no npm package)
@@ -169,13 +170,7 @@ export function AcidWarp({ state }) {
   });
 
   useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(pointer: coarse)').matches
-    ) {
-      return;
-    }
+    if (isTouchDevice) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -190,6 +185,8 @@ export function AcidWarp({ state }) {
     let organisms = [];
     let isMounted = true;
 
+    let cachedImageData = null;
+
     function resize() {
       viewW = window.innerWidth;
       viewH = window.innerHeight;
@@ -197,6 +194,7 @@ export function AcidWarp({ state }) {
       renderH = Math.ceil(viewH * RESOLUTION_SCALE);
       canvas.width = renderW;
       canvas.height = renderH;
+      cachedImageData = ctx.createImageData(renderW, renderH);
       spawnOrganisms();
     }
 
@@ -230,8 +228,8 @@ export function AcidWarp({ state }) {
 
       const step = SAMPLE_STEP;
       const threshold = 1.0;
-      const imageData = ctx.createImageData(renderW, renderH);
-      const data = imageData.data;
+      cachedImageData.data.fill(0);
+      const data = cachedImageData.data;
 
       for (let py = 0; py < renderH; py += step) {
         for (let px = 0; px < renderW; px += step) {
@@ -260,17 +258,28 @@ export function AcidWarp({ state }) {
         }
       }
 
-      ctx.putImageData(imageData, 0, 0);
+      ctx.putImageData(cachedImageData, 0, 0);
       rafRef.current = requestAnimationFrame(render);
     }
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      } else if (!rafRef.current && isMounted) {
+        rafRef.current = requestAnimationFrame(render);
+      }
+    };
+
     window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', onVisibilityChange);
     resize();
     rafRef.current = requestAnimationFrame(render);
 
     return () => {
       isMounted = false;
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
@@ -278,13 +287,7 @@ export function AcidWarp({ state }) {
     };
   }, []);
 
-  if (
-    typeof window !== 'undefined' &&
-    window.matchMedia &&
-    window.matchMedia('(pointer: coarse)').matches
-  ) {
-    return null;
-  }
+  if (isTouchDevice) return null;
 
   return (
     <canvas

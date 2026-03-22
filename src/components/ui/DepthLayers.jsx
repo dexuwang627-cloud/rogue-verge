@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { isTouchDevice } from '../../utils/device';
 
 // --------------------------------------------------------------------------
 // Static data — defined outside component to avoid re-creation on render
@@ -59,30 +60,30 @@ export const DepthLayers = ({ isAwakened = false }) => {
     const scrollRef = useRef(0);
 
     // Mobile guard — render nothing on touch devices
-    const isTouchDevice = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
 
     useEffect(() => {
         if (isTouchDevice) return;
+
+        // Cache DOM queries once — element lists are static after mount
+        let fragments = null;
+        let labels = null;
+
         const onScroll = () => {
-            if (rafRef.current) return; // already scheduled — skip
+            if (rafRef.current) return;
 
             rafRef.current = requestAnimationFrame(() => {
                 rafRef.current = null;
                 const scrollY = window.scrollY;
                 scrollRef.current = scrollY;
 
-                // Layer 1 — code rain: slow upward drift
                 if (layer1Ref.current) {
-                    const y = scrollY * -0.05;
-                    layer1Ref.current.style.transform = `translateY(${y}px)`;
+                    layer1Ref.current.style.transform = `translateY(${scrollY * -0.05}px)`;
                 }
 
-                // Layer 2 — geometry: faster upward drift + horizontal sine per fragment
                 if (layer2Ref.current) {
-                    const baseY = scrollY * -0.12;
-                    layer2Ref.current.style.transform = `translateY(${baseY}px)`;
+                    layer2Ref.current.style.transform = `translateY(${scrollY * -0.12}px)`;
 
-                    const fragments = layer2Ref.current.querySelectorAll('[data-fragment]');
+                    if (!fragments) fragments = layer2Ref.current.querySelectorAll('[data-fragment]');
                     fragments.forEach((el, i) => {
                         const hx  = Math.sin(scrollY * 0.002 + i * 2) * 15;
                         const rot = Math.sin(scrollY * 0.001 + i) * 20;
@@ -91,12 +92,10 @@ export const DepthLayers = ({ isAwakened = false }) => {
                     });
                 }
 
-                // Layer 3 — ghost text: very slow drift + opacity pulse
                 if (layer3Ref.current) {
-                    const y = scrollY * -0.03;
-                    layer3Ref.current.style.transform = `translateY(${y}px)`;
+                    layer3Ref.current.style.transform = `translateY(${scrollY * -0.03}px)`;
 
-                    const labels = layer3Ref.current.querySelectorAll('[data-ghost]');
+                    if (!labels) labels = layer3Ref.current.querySelectorAll('[data-ghost]');
                     labels.forEach((el, i) => {
                         const op = Math.sin(scrollY * 0.003 + i * 1.5) * 0.02 + 0.03;
                         el.style.opacity = Math.max(0, op);

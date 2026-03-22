@@ -1,15 +1,12 @@
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'; // eslint-disable-line no-unused-vars
+import { isTouchDevice } from '../../utils/device';
 
 const DORMANT_CONFIG = { maxTilt: 15, stiffness: 300, damping: 30 };
 const AWAKENED_CONFIG = { maxTilt: 25, stiffness: 150, damping: 10 };
 
 export function MagneticWrapper({ isAwakened = false, children, className = '' }) {
   const ref = useRef(null);
-  const isTouchDevice =
-    typeof window !== 'undefined' &&
-    window.matchMedia &&
-    window.matchMedia('(pointer: coarse)').matches;
 
   const config = isAwakened ? AWAKENED_CONFIG : DORMANT_CONFIG;
 

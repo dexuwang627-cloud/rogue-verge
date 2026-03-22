@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { isTouchDevice } from '../utils/device';
 
 // Fallback titles (used if lang/translations not provided)
 const PAGE_TITLES = {
@@ -18,10 +19,7 @@ export function useLiquidMorph(titleRef, currentPage, { isAwakened = false, titl
     if (!el) return;
     if (prevPage.current === currentPage) return;
 
-    const isMobile =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(pointer: coarse)').matches;
+    const isMobile = isTouchDevice;
 
     // Use provided title (from TRANSLATIONS) or fallback to English
     const newTitle = title || PAGE_TITLES[currentPage] || '';

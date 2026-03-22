@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { isTouchDevice } from '../../utils/device';
 
 export const CustomCursor = ({ isAwakened }) => {
     const cursorMainRef = useRef(null);
@@ -6,8 +7,7 @@ export const CustomCursor = ({ isAwakened }) => {
     const cursorTrail2Ref = useRef(null);
 
     useEffect(() => {
-        // [效能優化] 只在非觸控設備執行
-        if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+        if (isTouchDevice) return;
 
         const mousePos = { x: 0, y: 0 };
         const trail1Pos = { x: 0, y: 0 };
@@ -50,9 +50,7 @@ export const CustomCursor = ({ isAwakened }) => {
     }, []);
 
     // 觸控設備不在 DOM 中渲染自訂游標
-    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
-        return null;
-    }
+    if (isTouchDevice) return null;
 
     return (
         <React.Fragment>
