@@ -5,6 +5,7 @@ import { DepthLayers } from '../ui/DepthLayers';
 import HeartbeatFlash from '../ui/HeartbeatFlash';
 import { DecryptedText } from '../ui/DecryptedText';
 import { useAtmosphere } from '../../hooks/useAtmosphere';
+import { GlitchGeometryBlock } from '../ui/GlitchGeometryBlock';
 
 // ---------------------------------------------------------------------------
 // TypewriterText -- terminal-style character-by-character typing
@@ -228,6 +229,9 @@ export const Codex = ({ lang, isAwakened }) => {
 
             {/* Main content */}
             <div ref={contentRef} style={{ position: 'relative', zIndex: 10 }}>
+
+                {/* Sigilism scroll animation — Codex entry gate */}
+                <GlitchGeometryBlock />
 
                 {/* ============================================================
                     Opening
