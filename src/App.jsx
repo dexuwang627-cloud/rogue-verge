@@ -96,32 +96,41 @@ export default function App() {
     };
 
     const targetTitle = titles[currentPage] || 'ROGUE VERGE';
+
+    // Set correct title immediately (for SEO / social previews)
+    document.title = targetTitle;
+
+    // Delayed scramble animation (cosmetic only)
     const duration = 600;
     const scrambleChars = '!<>-_\\/[]{}—=+*^?#';
-    let startTime = Date.now();
+    let startTime = 0;
     let iteration = 0;
 
-    const scrambleTitle = () => {
-      const elapsed = Date.now() - startTime;
-      if (elapsed > duration) {
-        document.title = targetTitle;
-        clearInterval(interval);
-        return;
-      }
-
-      const newTitle = targetTitle.split('').map((char, index) => {
-        if (index < iteration) {
-          return char;
+    const delayTimer = setTimeout(() => {
+      startTime = Date.now();
+      const interval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        if (elapsed > duration) {
+          document.title = targetTitle;
+          clearInterval(interval);
+          return;
         }
-        return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-      }).join('');
+        const newTitle = targetTitle.split('').map((char, index) => {
+          if (index < iteration) return char;
+          return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+        }).join('');
+        document.title = newTitle;
+        iteration += 3;
+      }, 30);
+      // store for cleanup
+      cleanupInterval = interval;
+    }, 800);
 
-      document.title = newTitle;
-      iteration += 3;
+    let cleanupInterval = null;
+    return () => {
+      clearTimeout(delayTimer);
+      if (cleanupInterval) clearInterval(cleanupInterval);
     };
-
-    const interval = setInterval(scrambleTitle, 30);
-    return () => clearInterval(interval);
   }, [currentPage, selectedRelic]);
 
   const t = TRANSLATIONS[language];

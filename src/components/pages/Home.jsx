@@ -1,8 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { TRANSLATIONS } from '../../data/constants';
 import { ScrambleText } from '../ui/ScrambleText';
-import { GlitchGeometryBlock } from '../ui/GlitchGeometryBlock';
-
 export const Home = ({ isAwakened, toggleAwaken, lang }) => {
     const t = TRANSLATIONS[lang];
     const locRef = useRef(null);
@@ -24,10 +22,7 @@ export const Home = ({ isAwakened, toggleAwaken, lang }) => {
 
     return (
         <React.Fragment>
-            {/* Glitch Effect Element — Top of page */}
-            <GlitchGeometryBlock />
-
-            {/* Hero Section */}
+            {/* Hero Section — first impression */}
             <section className="relative h-screen flex flex-col items-center pt-24 overflow-hidden perspective-1000">
                 <div className="relative group cursor-pointer z-30" onClick={toggleAwaken}>
                     <div className={`relative w-[300px] h-[400px] md:w-[400px] md:h-[550px] transition-all duration-1000 ease-out overflow-hidden bg-black border border-[#222] ${isAwakened ? 'shadow-[0_0_50px_rgba(255,255,255,0.1)] scale-105' : 'shadow-none grayscale'}`}>
@@ -62,6 +57,7 @@ export const Home = ({ isAwakened, toggleAwaken, lang }) => {
                     </div>
                 </div>
             </section>
+
         </React.Fragment>
     );
 };
